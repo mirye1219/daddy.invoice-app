@@ -7,362 +7,132 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', Arial, sans-serif;
+            background: #f0f2f5;
             min-height: 100vh;
             padding: 20px;
         }
 
+        /* 인증 화면 */
         .auth-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             z-index: 1000;
         }
-
         .auth-box {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
+            background: white; padding: 40px; border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center;
+            max-width: 400px; width: 100%;
         }
-
-        .auth-box h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
-
-        .auth-box p {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
+        .auth-box h1 { color: #333; margin-bottom: 10px; font-size: 24px; }
+        .auth-box p { color: #666; margin-bottom: 30px; font-size: 14px; }
         .auth-box input {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            width: 100%; padding: 12px 15px; margin-bottom: 20px;
+            border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;
         }
-
-        .auth-box input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
+        .auth-box input:focus { outline: none; border-color: #667eea; }
         .auth-box button {
-            width: 100%;
-            padding: 12px;
+            width: 100%; padding: 12px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: bold; cursor: pointer;
         }
+        .auth-box button:hover { transform: translateY(-2px); }
+        .auth-error { color: #e74c3c; font-size: 14px; margin-bottom: 15px; }
+        .auth-container.hidden { display: none; }
 
-        .auth-box button:hover {
-            transform: translateY(-2px);
+        .app-wrapper { max-width: 950px; margin: 0 auto; display: none; }
+        .app-wrapper.active { display: block; }
+        .header { text-align: right; margin-bottom: 15px; }
+        .logout-btn {
+            background: #e74c3c; color: white; padding: 8px 15px;
+            border: none; border-radius: 5px; cursor: pointer; font-size: 12px;
         }
-
-        .auth-error {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .auth-container.hidden {
-            display: none;
-        }
+        .logout-btn:hover { background: #c0392b; }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            display: none;
+            background: white; padding: 25px; border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
         }
 
-        .container.active {
-            display: block;
-        }
-
-        .header {
-            text-align: right;
-            margin-bottom: 20px;
+        /* ===== 거래명세서 표 (원본 양식) ===== */
+        table { border-collapse: collapse; width: 100%; }
+        .inv td {
+            border: 1.2px solid #000;
+            padding: 4px 6px;
             font-size: 12px;
+            vertical-align: middle;
+        }
+        .inv-title {
+            text-align: center; font-size: 22px; font-weight: bold;
+            letter-spacing: 6px; padding: 10px 0 !important;
+        }
+        .rot-label { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 2px; }
+        .cell-label { font-weight: bold; text-align: center; }
+        .fixed-val { font-weight: bold; }
+
+        /* 공급자 정보 우측 상단에 도장 겹치기 */
+        .supplier-cell { position: relative; }
+        .seal-img {
+            position: absolute; top: 2px; right: 2px;
+            width: 72px; height: auto; opacity: 0.92; z-index: 2;
+            pointer-events: none;
         }
 
-        .logout-btn {
-            background: #e74c3c;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .logout-btn:hover {
-            background: #c0392b;
-        }
-
-        .invoice-title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-        }
-
-        .invoice-date {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            align-items: center;
-        }
-
-        .invoice-date input {
-            width: 50px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-align: center;
-        }
-
-        .invoice-date span {
-            font-weight: bold;
-        }
-
-        .section {
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            padding: 8px;
-            background: #f5f5f5;
-            border-radius: 4px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-size: 12px;
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        /* 입력 필드 */
+        input.inp {
+            width: 100%; border: none; border-bottom: 1px solid #999;
+            background: transparent; font-size: 12px; padding: 1px 2px;
             font-family: inherit;
-            font-size: 14px;
+        }
+        input.inp:focus { outline: none; border-bottom: 2px solid #667eea; background: #f5f7ff; }
+        input.num { text-align: right; }
+        .readonly-box {
+            width: 100%; background: transparent; border: none;
+            text-align: right; font-size: 12px; font-weight: bold; color: #000;
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 60px;
+        /* 거래내역 */
+        .items td, .items th {
+            border: 1.2px solid #000; padding: 2px 3px; font-size: 12px;
+            height: 26px;
         }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        .items th { background: #f7f7f7; font-weight: bold; text-align: center; }
+        .items input {
+            width: 100%; border: none; background: transparent;
+            font-size: 12px; padding: 2px; font-family: inherit;
         }
+        .items input:focus { outline: none; background: #fffacd; }
+        .items input.num { text-align: right; }
 
-        .full-width {
-            grid-column: 1 / -1;
+        textarea.inp-ta {
+            width: 100%; border: none; font-size: 12px;
+            font-family: inherit; resize: vertical; min-height: 48px; padding: 2px;
         }
+        textarea.inp-ta:focus { outline: none; background: #f5f7ff; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            font-size: 13px;
-        }
-
-        th {
-            background: #f9f9f9;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        td {
-            height: 35px;
-        }
-
-        td input {
-            width: 100%;
-            padding: 5px;
-            border: none;
-            text-align: right;
-        }
-
-        td input:focus {
-            outline: none;
-            background: #fffacd;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
+        /* 버튼 */
+        .buttons { display: flex; gap: 10px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
         .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s;
+            padding: 12px 28px; border: none; border-radius: 6px;
+            cursor: pointer; font-size: 14px; font-weight: bold; transition: all .3s;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #95a5a6;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #7f8c8d;
-        }
-
-        .notes {
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-        }
-
-        .notes textarea {
-            width: 100%;
-            height: 80px;
-        }
-
-        .total-section {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .total-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .total-item label {
-            font-weight: bold;
-            font-size: 13px;
-        }
-
-        .total-item input {
-            width: 40%;
-            text-align: right;
-        }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,.4); }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn-secondary:hover { background: #7f8c8d; }
 
         @media print {
-            body {
-                background: white;
-            }
-            .buttons, .logout-btn, .auth-container {
-                display: none;
-            }
+            body { background: white; padding: 0; }
+            .buttons, .logout-btn, .auth-container, .header { display: none; }
+            .container { box-shadow: none; padding: 0; }
         }
-
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .container {
-                padding: 15px;
-            }
-        }
-
-        .row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .row.full {
-            grid-template-columns: 1fr;
-        }
-
-        .info-section {
-            background: #fafafa;
-            padding: 15px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+        @media (max-width: 600px) {
+            .inv td { font-size: 10px; padding: 2px 3px; }
+            .inv-title { font-size: 16px; }
         }
     </style>
 </head>
@@ -379,303 +149,284 @@
     </div>
 
     <!-- 메인 앱 -->
-    <div class="container" id="mainContainer">
+    <div class="app-wrapper" id="appWrapper">
         <div class="header">
             <button class="logout-btn" onclick="logout()">로그아웃</button>
         </div>
 
-        <div class="invoice-title">거 래 명 세 서</div>
+        <div class="container" id="invoiceContainer">
+            <!-- ===== 상단 헤더: 제목 + 공급자 ===== -->
+            <table class="inv">
+                <tr>
+                    <td class="inv-title" colspan="10">거 래 명 세 서</td>
+                </tr>
+                <tr>
+                    <!-- 좌측: 공급받는자 + 날짜 (수정 가능) -->
+                    <td colspan="5" style="vertical-align: top; padding: 8px 10px;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000; width: 30%;">공급받는자</td>
+                                <td style="border: 1.2px solid #000;">
+                                    <input class="inp" id="buyerName" placeholder="상호 입력">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000;">성 명</td>
+                                <td style="border: 1.2px solid #000;">
+                                    <input class="inp" id="buyerCEO" placeholder="성명 입력">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000;">사업장소재지</td>
+                                <td style="border: 1.2px solid #000;">
+                                    <input class="inp" id="buyerAddress" placeholder="주소 입력">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000;">업 태</td>
+                                <td style="border: 1.2px solid #000;">
+                                    <input class="inp" id="buyerType" placeholder="업태 입력">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000;">종 목</td>
+                                <td style="border: 1.2px solid #000;">
+                                    <input class="inp" id="buyerItem" placeholder="종목 입력">
+                                </td>
+                            </tr>
+                        </table>
 
-        <div class="invoice-date">
-            <span>발행일:</span>
-            <input type="number" id="year" min="2000" max="2100" value="2024">
-            <span>년</span>
-            <input type="number" id="month" min="1" max="12" value="8">
-            <span>월</span>
-            <input type="number" id="day" min="1" max="31" value="20">
-            <span>일</span>
-        </div>
+                        <!-- 날짜 -->
+                        <div style="margin-top: 12px; font-size: 13px; display: flex; align-items: center; gap: 4px;">
+                            <b>일자</b>&nbsp;
+                            <input class="inp" id="year" value="2026" style="width: 46px; text-align: center;"> 년
+                            <input class="inp" id="month" value="8" style="width: 32px; text-align: center;"> 월
+                            <input class="inp" id="day" value="20" style="width: 32px; text-align: center;"> 일
+                        </div>
+                    </td>
 
-        <!-- 공급자 정보 -->
-        <div class="section">
-            <div class="section-title">공급자 정보</div>
-            <div class="row">
-                <div class="form-group">
-                    <label>상호</label>
-                    <input type="text" id="supplierName" placeholder="(주) 회사명">
-                </div>
-                <div class="form-group">
-                    <label>등록번호</label>
-                    <input type="text" id="supplierReg" placeholder="123-45-67890">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label>대표자 성명</label>
-                    <input type="text" id="supplierCEO" placeholder="김철수">
-                </div>
-                <div class="form-group">
-                    <label>사업장 주소</label>
-                    <input type="text" id="supplierAddress" placeholder="서울시 강남구...">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label>업태</label>
-                    <input type="text" id="supplierType" placeholder="도매">
-                </div>
-                <div class="form-group">
-                    <label>종목</label>
-                    <input type="text" id="supplierItem" placeholder="의류">
-                </div>
-            </div>
-        </div>
+                    <!-- 우측: 공급자 정보 (완전 고정) + 도장 -->
+                    <td colspan="5" style="vertical-align: top; padding: 8px 10px;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000; width: 30%;">등록번호</td>
+                                <td colspan="3" class="fixed-val" style="border: 1.2px solid #000;">107-62-66145</td>
+                            </tr>
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000;">상 호</td>
+                                <td class="fixed-val" style="border: 1.2px solid #000; width: 25%;">삼우건기</td>
+                                <td class="cell-label" style="border: 1.2px solid #000; width: 15%;">성 명</td>
+                                <td class="fixed-val supplier-cell" style="border: 1.2px solid #000; width: 30%;">
+                                    김재성
+                                    <img class="seal-img" src="data:image/png;base64,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" alt="도장">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000;">사업장<br>소 재 지</td>
+                                <td colspan="3" class="fixed-val" style="border: 1.2px solid #000; font-size: 11px; line-height: 1.4;">
+                                    경기 수원 권선구 호매실로 104번길 24-61, 1동 1003호<br>(호매실동, 금호프라자)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-label" style="border: 1.2px solid #000;">업 태</td>
+                                <td class="fixed-val" style="border: 1.2px solid #000;">건설</td>
+                                <td class="cell-label" style="border: 1.2px solid #000;">종 목</td>
+                                <td class="fixed-val" style="border: 1.2px solid #000;">건설기계대여</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-        <!-- 공급받는자 정보 -->
-        <div class="section">
-            <div class="section-title">공급받는자 정보</div>
-            <div class="row">
-                <div class="form-group">
-                    <label>상호</label>
-                    <input type="text" id="buyerName" placeholder="(주) 회사명">
-                </div>
-                <div class="form-group">
-                    <label>등록번호</label>
-                    <input type="text" id="buyerReg" placeholder="123-45-67890">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label>대표자 성명</label>
-                    <input type="text" id="buyerCEO" placeholder="이영희">
-                </div>
-                <div class="form-group">
-                    <label>사업장 주소</label>
-                    <input type="text" id="buyerAddress" placeholder="서울시 중구...">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label>업태</label>
-                    <input type="text" id="buyerType" placeholder="소매">
-                </div>
-                <div class="form-group">
-                    <label>종목</label>
-                    <input type="text" id="buyerItem" placeholder="의류판매">
-                </div>
-            </div>
-        </div>
+                <!-- 안내문 + 합계금액 -->
+                <tr>
+                    <td colspan="6" style="text-align: center; font-size: 13px; padding: 8px;">
+                        아래와 같이 계산합니다.
+                    </td>
+                    <td colspan="4" style="text-align: center; font-size: 12px; padding: 8px;">
+                        <span style="font-weight: bold;">합계금액</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 6px;">
+                        <span style="font-size: 12px;">원정 ( ₩ </span>
+                        <span id="totalAmount" style="font-size: 13px; font-weight: bold;">0</span>
+                        <span style="font-size: 12px;"> )</span>
+                    </td>
+                    <td colspan="4" style="text-align: center; padding: 6px;">
+                        <span id="totalAmount2" style="font-size: 15px; font-weight: bold;">0</span>
+                    </td>
+                </tr>
+            </table>
 
-        <!-- 거래 상세 -->
-        <div class="section">
-            <div class="section-title">거래 상세</div>
-            <table>
+            <!-- ===== 거래 내역 ===== -->
+            <table class="items" style="margin-top: -1px;">
                 <thead>
                     <tr>
-                        <th style="width: 8%">월</th>
-                        <th style="width: 8%">일</th>
-                        <th style="width: 30%">품목</th>
-                        <th style="width: 10%">수량</th>
-                        <th style="width: 12%">단가</th>
-                        <th style="width: 12%">공급가액</th>
-                        <th style="width: 12%">세액</th>
-                        <th style="width: 8%">비고</th>
+                        <th style="width: 5%;">월</th>
+                        <th style="width: 5%;">일</th>
+                        <th style="width: 32%;">품 목</th>
+                        <th style="width: 9%;">수 량</th>
+                        <th style="width: 11%;">단 가</th>
+                        <th style="width: 13%;">공급가액</th>
+                        <th style="width: 12%;">세 액</th>
+                        <th style="width: 13%;">비 고</th>
                     </tr>
                 </thead>
                 <tbody id="itemTable">
+                    <!-- JS로 생성 -->
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align: center; font-weight: bold;">계</td>
+                        <td><input class="num" id="sumQty" value="0" readonly></td>
+                        <td></td>
+                        <td><input class="num" id="sumSupply" value="0" readonly></td>
+                        <td><input class="num" id="sumTax" value="0" readonly></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
-        </div>
 
-        <!-- 합계 -->
-        <div class="section">
-            <div class="total-section">
-                <div class="total-item">
-                    <label>공급가액 합계:</label>
-                    <input type="text" id="totalSupply" readonly value="0">
-                </div>
-                <div class="total-item">
-                    <label>세액 합계:</label>
-                    <input type="text" id="totalTax" readonly value="0">
-                </div>
-                <div class="total-item">
-                    <label>총 합계금액:</label>
-                    <input type="text" id="totalAmount" readonly value="0">
-                </div>
-                <div class="total-item">
-                    <label>원화 표시:</label>
-                    <input type="text" id="totalDisplay" readonly value="0">
-                </div>
-            </div>
-        </div>
-
-        <!-- 비고 -->
-        <div class="section">
-            <div class="section-title">비고</div>
-            <div class="notes">
-                <textarea id="notes" placeholder="현장명, 계좌번호, 기타 사항 등"></textarea>
-            </div>
+            <!-- ===== 하단: 전잔금 / 합계 / 비고 ===== -->
+            <table class="inv" style="margin-top: -1px;">
+                <tr>
+                    <td class="cell-label" style="width: 12%;">전 잔 금</td>
+                    <td style="width: 25%; text-align: right;">
+                        <input class="readonly-box" id="balance" value="0" readonly>
+                    </td>
+                    <td class="cell-label" style="width: 12%;">합 계</td>
+                    <td style="width: 25%; text-align: right;">
+                        <input class="readonly-box" id="finalTotal" value="0" readonly>
+                    </td>
+                    <td style="width: 26%;"></td>
+                </tr>
+                <tr>
+                    <td class="cell-label" style="vertical-align: top;">비 고</td>
+                    <td colspan="4" style="vertical-align: top;">
+                        <textarea class="inp-ta" id="notes" placeholder="현장명, 계좌번호, 기타 사항"></textarea>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <!-- 버튼 -->
         <div class="buttons">
-            <button class="btn btn-primary" onclick="downloadPDF()">📥 PDF로 다운로드</button>
             <button class="btn btn-primary" onclick="downloadImage()">🖼️ 이미지로 다운로드</button>
+            <button class="btn btn-primary" onclick="downloadPDF()">📥 PDF로 다운로드</button>
             <button class="btn btn-secondary" onclick="clearForm()">🔄 초기화</button>
         </div>
     </div>
 
     <script>
-        // 초대 코드 설정 (이 부분을 수정해서 사용하세요)
-        const VALID_CODES = ['1234', '5678', '9012']; // 여기에 초대 코드 추가
+        // ===== 초대 코드 (필요시 수정) =====
+        const VALID_CODES = ['code123', 'access456', 'user789'];
 
-        // 인증 체크
+        // ===== 인증 =====
         function authenticate() {
             const code = document.getElementById('accessCode').value;
             if (VALID_CODES.includes(code)) {
                 sessionStorage.setItem('authenticated', 'true');
                 document.getElementById('authContainer').classList.add('hidden');
-                document.getElementById('mainContainer').classList.add('active');
+                document.getElementById('appWrapper').classList.add('active');
                 initForm();
             } else {
                 document.getElementById('authError').textContent = '잘못된 코드입니다.';
                 document.getElementById('accessCode').value = '';
             }
         }
-
         function logout() {
             sessionStorage.removeItem('authenticated');
             location.reload();
         }
 
+        // ===== 거래내역 테이블 생성 =====
         function initForm() {
-            // 테이블 생성
-            generateTable();
-            
-            // 이벤트 리스너
-            document.getElementById('itemTable').addEventListener('change', calculateTotals);
-        }
-
-        function generateTable() {
             const tbody = document.getElementById('itemTable');
             tbody.innerHTML = '';
-            
-            for (let i = 0; i < 15; i++) {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="text-center"><input type="number" class="month-input" min="1" max="12" value="8"></td>
-                    <td class="text-center"><input type="number" class="day-input" min="1" max="31" value=""></td>
-                    <td><input type="text" class="item-input" placeholder="품목명"></td>
-                    <td class="text-center"><input type="number" class="qty-input" min="0" step="0.01"></td>
-                    <td class="text-center"><input type="number" class="price-input" min="0" step="100"></td>
-                    <td class="text-center"><input type="number" class="supply-input" readonly></td>
-                    <td class="text-center"><input type="number" class="tax-input" readonly></td>
-                    <td><input type="text" class="note-input" placeholder=""></td>
+            for (let i = 0; i < 16; i++) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input class="num m" type="number" min="1" max="12"></td>
+                    <td><input class="num d" type="number" min="1" max="31"></td>
+                    <td><input class="name" type="text" placeholder=""></td>
+                    <td><input class="num qty" type="number" min="0" step="0.01"></td>
+                    <td><input class="num price" type="number" min="0" step="100"></td>
+                    <td><input class="num supply" type="text" readonly></td>
+                    <td><input class="num tax" type="text" readonly></td>
+                    <td><input type="text" placeholder=""></td>
                 `;
-                
-                // 수량, 단가 변경시 공급가액, 세액 자동 계산
-                const qtyInput = row.querySelector('.qty-input');
-                const priceInput = row.querySelector('.price-input');
-                
-                qtyInput.addEventListener('change', () => calculateRowAmount(row));
-                priceInput.addEventListener('change', () => calculateRowAmount(row));
-                
-                tbody.appendChild(row);
+                tr.querySelector('.qty').addEventListener('change', () => calcRow(tr));
+                tr.querySelector('.price').addEventListener('change', () => calcRow(tr));
+                tbody.appendChild(tr);
             }
         }
 
-        function calculateRowAmount(row) {
-            const qty = parseFloat(row.querySelector('.qty-input').value) || 0;
-            const price = parseFloat(row.querySelector('.price-input').value) || 0;
-            const supply = qty * price;
+        function calcRow(tr) {
+            const qty = parseFloat(tr.querySelector('.qty').value) || 0;
+            const price = parseFloat(tr.querySelector('.price').value) || 0;
+            const supply = Math.round(qty * price);
             const tax = Math.round(supply * 0.1);
-            
-            row.querySelector('.supply-input').value = supply > 0 ? supply.toLocaleString('ko-KR') : '';
-            row.querySelector('.tax-input').value = tax > 0 ? tax.toLocaleString('ko-KR') : '';
-            
-            calculateTotals();
+            tr.querySelector('.supply').value = supply > 0 ? supply.toLocaleString('ko-KR') : '';
+            tr.querySelector('.tax').value = tax > 0 ? tax.toLocaleString('ko-KR') : '';
+            calcTotals();
         }
 
-        function calculateTotals() {
-            const rows = document.querySelectorAll('#itemTable tr');
-            let totalSupply = 0;
-            let totalTax = 0;
-            
-            rows.forEach(row => {
-                const supply = parseFloat(row.querySelector('.supply-input').value) || 0;
-                const tax = parseFloat(row.querySelector('.tax-input').value) || 0;
-                totalSupply += supply;
-                totalTax += tax;
+        function calcTotals() {
+            let qty = 0, supply = 0, tax = 0;
+            document.querySelectorAll('#itemTable tr').forEach(tr => {
+                qty += parseFloat(tr.querySelector('.qty').value) || 0;
+                supply += parseFloat((tr.querySelector('.supply').value || '').replace(/,/g, '')) || 0;
+                tax += parseFloat((tr.querySelector('.tax').value || '').replace(/,/g, '')) || 0;
             });
-            
-            const totalAmount = totalSupply + totalTax;
-            
-            document.getElementById('totalSupply').value = totalSupply.toLocaleString('ko-KR');
-            document.getElementById('totalTax').value = totalTax.toLocaleString('ko-KR');
-            document.getElementById('totalAmount').value = totalAmount.toLocaleString('ko-KR');
-            document.getElementById('totalDisplay').value = `(₩ ${totalAmount.toLocaleString('ko-KR')})`;
+            const total = supply + tax;
+            const fmt = n => n.toLocaleString('ko-KR');
+            document.getElementById('sumQty').value = fmt(qty);
+            document.getElementById('sumSupply').value = fmt(supply);
+            document.getElementById('sumTax').value = fmt(tax);
+            document.getElementById('totalAmount').textContent = fmt(total);
+            document.getElementById('totalAmount2').textContent = fmt(total);
+            document.getElementById('balance').value = fmt(total);
+            document.getElementById('finalTotal').value = fmt(total);
+        }
+
+        // ===== 초기화 =====
+        function clearForm() {
+            if (!confirm('정말 초기화하시겠습니까?')) return;
+            ['buyerName', 'buyerCEO', 'buyerAddress', 'buyerType', 'buyerItem', 'notes'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            document.querySelectorAll('#itemTable input').forEach(inp => { inp.value = ''; });
+            calcTotals();
+        }
+
+        // ===== 다운로드 =====
+        function downloadImage() {
+            const el = document.getElementById('invoiceContainer');
+            html2canvas(el, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
+                const a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = '거래명세서_' + new Date().getTime() + '.png';
+                a.click();
+            });
         }
 
         function downloadPDF() {
-            const element = document.getElementById('mainContainer');
+            const el = document.getElementById('invoiceContainer');
             const opt = {
-                margin: 10,
-                filename: `거래명세서_${new Date().getTime()}.pdf`,
+                margin: 5,
+                filename: '거래명세서_' + new Date().getTime() + '.pdf',
                 image: { type: 'png', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
             };
-            html2pdf().set(opt).from(element).save();
+            html2pdf().set(opt).from(el).save();
         }
 
-        function downloadImage() {
-            const element = document.getElementById('mainContainer');
-            html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
-                const link = document.createElement('a');
-                link.href = canvas.toDataURL('image/png');
-                link.download = `거래명세서_${new Date().getTime()}.png`;
-                link.click();
-            });
-        }
-
-        function clearForm() {
-            if (confirm('정말 초기화하시겠습니까?')) {
-                document.getElementById('supplierName').value = '';
-                document.getElementById('supplierReg').value = '';
-                document.getElementById('supplierCEO').value = '';
-                document.getElementById('supplierAddress').value = '';
-                document.getElementById('supplierType').value = '';
-                document.getElementById('supplierItem').value = '';
-                
-                document.getElementById('buyerName').value = '';
-                document.getElementById('buyerReg').value = '';
-                document.getElementById('buyerCEO').value = '';
-                document.getElementById('buyerAddress').value = '';
-                document.getElementById('buyerType').value = '';
-                document.getElementById('buyerItem').value = '';
-                
-                document.getElementById('notes').value = '';
-                
-                document.querySelectorAll('#itemTable input').forEach(input => {
-                    if (input.classList.contains('month-input')) {
-                        input.value = '8';
-                    } else if (input.classList.contains('day-input')) {
-                        input.value = '';
-                    } else {
-                        input.value = '';
-                    }
-                });
-                
-                calculateTotals();
-            }
-        }
-
-        // 페이지 로드시 인증 체크
+        // ===== 로드 =====
         window.addEventListener('load', () => {
-            const authenticated = sessionStorage.getItem('authenticated');
-            if (authenticated === 'true') {
+            if (sessionStorage.getItem('authenticated') === 'true') {
                 document.getElementById('authContainer').classList.add('hidden');
-                document.getElementById('mainContainer').classList.add('active');
+                document.getElementById('appWrapper').classList.add('active');
                 initForm();
             }
         });
