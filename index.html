@@ -16,7 +16,6 @@
     >
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
@@ -24,7 +23,7 @@
 
 
 <!-- =====================================================
-     인증
+     인증 화면
 ====================================================== -->
 
 <div
@@ -63,7 +62,7 @@
 
 
 <!-- =====================================================
-     앱
+     메인 앱
 ====================================================== -->
 
 <div
@@ -84,10 +83,15 @@
 
 
     <!-- =================================================
-         A4
+         A4 종이
     ================================================== -->
 
     <div class="paper">
+
+
+        <!-- =============================================
+             실제 저장되는 거래명세서
+        ============================================== -->
 
         <div
             class="invoice-frame"
@@ -112,21 +116,30 @@
             <table class="top-table">
 
                 <colgroup>
+
+                    <!-- 공급받는자 -->
                     <col style="width:42%">
+
+                    <!-- 공급자 세로칸 -->
                     <col style="width:7%">
+
+                    <!-- 공급자 정보 -->
                     <col style="width:51%">
+
                 </colgroup>
+
 
                 <tbody>
 
                 <tr>
 
 
-                    <!-- ===============================
+                    <!-- =================================
                          공급받는 자
-                    ================================ -->
+                    ================================== -->
 
                     <td class="top-cell">
+
 
                         <table class="buyer-table">
 
@@ -141,6 +154,7 @@
 
                                     <div class="date-box">
 
+
                                         <input
                                             class="date-input year"
                                             id="year"
@@ -149,7 +163,10 @@
                                             max="2100"
                                         >
 
-                                        <span>년</span>
+                                        <span>
+                                            년
+                                        </span>
+
 
                                         <input
                                             class="date-input small"
@@ -159,7 +176,10 @@
                                             max="12"
                                         >
 
-                                        <span>월</span>
+                                        <span>
+                                            월
+                                        </span>
+
 
                                         <input
                                             class="date-input small"
@@ -169,7 +189,10 @@
                                             max="31"
                                         >
 
-                                        <span>일</span>
+                                        <span>
+                                            일
+                                        </span>
+
 
                                     </div>
 
@@ -178,7 +201,8 @@
                             </tr>
 
 
-                            <!-- 거래처 -->
+
+                            <!-- 회사명 -->
 
                             <tr>
 
@@ -186,15 +210,18 @@
 
                                     <div class="buyer-row">
 
+
                                         <input
                                             id="buyerName"
                                             type="text"
                                             placeholder="회사명(업체명) 입력"
                                         >
 
+
                                         <span class="gwiha">
                                             귀하
                                         </span>
+
 
                                     </div>
 
@@ -203,12 +230,15 @@
                             </tr>
 
 
-                            <!-- 계산 문구 -->
+
+                            <!-- 안내 문구 -->
 
                             <tr>
 
                                 <td class="calc-cell">
+
                                     아래와 같이 계산합니다.
+
                                 </td>
 
                             </tr>
@@ -222,23 +252,27 @@
 
 
 
-                    <!-- ===============================
-                         공급자
-                    ================================ -->
+                    <!-- =================================
+                         공급자 세로칸
+                    ================================== -->
 
                     <td class="supplier-vertical">
-                        공<br>급<br>자
+
+                        공급자
+
                     </td>
 
 
 
-                    <!-- ===============================
+                    <!-- =================================
                          공급자 정보
-                    ================================ -->
+                    ================================== -->
 
                     <td class="top-cell">
 
+
                         <table class="supplier-table">
+
 
                             <colgroup>
 
@@ -248,6 +282,7 @@
 
                                 <col style="width:18%">
 
+                                <!-- 건설기계대여가 들어가는 칸 -->
                                 <col style="width:32%">
 
                             </colgroup>
@@ -261,17 +296,23 @@
                             <tr>
 
                                 <td class="label-cell">
+
                                     등록번호
+
                                 </td>
+
 
                                 <td
                                     colspan="3"
                                     class="supplier-value"
                                 >
+
                                     107-62-66145
+
                                 </td>
 
                             </tr>
+
 
 
                             <!-- 상호 / 성명 -->
@@ -279,41 +320,47 @@
                             <tr>
 
                                 <td class="label-cell">
+
                                     상 호
+
                                 </td>
+
 
                                 <td class="supplier-value">
+
                                     삼우건기
+
                                 </td>
 
+
                                 <td class="label-cell">
+
                                     성 명
+
                                 </td>
+
 
                                 <td class="supplier-name-cell">
 
+
                                     <span>
+
                                         김재성
+
                                     </span>
 
 
-                                    <!--
-                                    ★ 중요 ★
-
-                                    아래 src="..." 안에는
-                                    기존 index.html에서 사용하던
-                                    긴 base64 값을 그대로 넣어주세요.
-                                    -->
-
                                     <img
                                         class="seal-img"
-                                        src="기존 도장 BASE64"
+                                        src="stamp.png"
                                         alt="도장"
                                     >
+
 
                                 </td>
 
                             </tr>
+
 
 
                             <!-- 사업장 소재지 -->
@@ -327,39 +374,50 @@
 
                                 </td>
 
+
                                 <td
                                     colspan="3"
                                     class="address-cell"
                                 >
 
                                     경기 수원 권선구 호매실로 104번길 24-61,<br>
-
-                                    1동 1003호
-                                    (호매실동, 금호프라자)
+                                    1동 1003호 (호매실동, 금호프라자)
 
                                 </td>
 
                             </tr>
 
 
+
                             <!-- 업태 / 종목 -->
 
-                            <tr>
+                            <tr class="supplier-bottom-row">
 
                                 <td class="label-cell">
+
                                     업 태
+
                                 </td>
 
+
                                 <td class="supplier-value">
+
                                     건설
+
                                 </td>
+
 
                                 <td class="label-cell">
+
                                     종 목
+
                                 </td>
 
+
                                 <td class="supplier-value">
+
                                     건설기계대여
+
                                 </td>
 
                             </tr>
@@ -368,6 +426,7 @@
                             </tbody>
 
                         </table>
+
 
                     </td>
 
@@ -381,10 +440,11 @@
 
 
             <!-- =========================================
-                 합계 금액
+                 합계금액
             ========================================== -->
 
             <table class="total-header-table">
+
 
                 <colgroup>
 
@@ -409,34 +469,49 @@
 
 
                     <td class="total-title">
+
                         합계금액
+
                     </td>
+
 
 
                     <td
                         id="totalKorean"
                         class="total-korean"
-                    ></td>
+                    >
+                    </td>
+
 
 
                     <td class="won-text">
+
                         원정
+
                     </td>
+
 
 
                     <td class="currency-open">
+
                         ( ₩
+
                     </td>
+
 
 
                     <td
                         id="totalAmount"
                         class="total-number"
-                    ></td>
+                    >
+                    </td>
+
 
 
                     <td class="currency-close">
+
                         )
+
                     </td>
 
 
@@ -451,94 +526,127 @@
             <!-- =========================================
                  거래내역
 
-                 월      6.5
-                 일      6.5
-                 품목    39
-                 수량    7
-                 단가    13.67
-                 공급    13.67
-                 세액    13.66
-
-                 = 100%
+                 월             6.5
+                 일             6.5
+                 품목           36
+                 수량            7
+                 단가          14.67
+                 공급가액      14.67
+                 세액          14.66
             ========================================== -->
 
             <table class="items-table">
 
+
                 <colgroup>
 
+
+                    <!-- 월 -->
                     <col style="width:6.5%">
 
+
+                    <!-- 일 -->
                     <col style="width:6.5%">
 
-                    <col style="width:39%">
 
+                    <!-- 품목 -->
+                    <col style="width:36%">
+
+
+                    <!-- 수량 : 공급자 칸과 동일 7% -->
                     <col style="width:7%">
 
-                    <col style="width:13.67%">
 
-                    <col style="width:13.67%">
+                    <!-- 단가 -->
+                    <col style="width:14.67%">
 
-                    <col style="width:13.66%">
+
+                    <!-- 공급가액 -->
+                    <col style="width:14.67%">
+
+
+                    <!-- 세액 -->
+                    <col style="width:14.66%">
+
 
                 </colgroup>
+
 
 
                 <thead>
 
                 <tr>
 
+
                     <th>
                         월
                     </th>
+
 
                     <th>
                         일
                     </th>
 
+
                     <th>
                         품 목
                     </th>
+
 
                     <th>
                         수 량
                     </th>
 
+
                     <th>
                         단 가
                     </th>
+
 
                     <th>
                         공급가액
                     </th>
 
+
                     <th>
                         세 액
                     </th>
+
 
                 </tr>
 
                 </thead>
 
 
+
+                <!-- JS로 행 생성 -->
+
                 <tbody id="itemTable">
                 </tbody>
 
 
-                <!-- ===============================
+
+                <!-- =====================================
                      계
-                ================================ -->
+                ====================================== -->
 
                 <tfoot>
 
                 <tr>
 
+
                     <td
                         colspan="3"
                         class="sum-label"
                     >
+
                         계
+
                     </td>
 
+
+
+                    <!-- 수량 -->
 
                     <td>
 
@@ -551,9 +659,15 @@
                     </td>
 
 
+
+                    <!-- 단가 합계 없음 -->
+
                     <td>
                     </td>
 
+
+
+                    <!-- 공급가액 -->
 
                     <td>
 
@@ -565,6 +679,9 @@
 
                     </td>
 
+
+
+                    <!-- 세액 -->
 
                     <td>
 
@@ -581,6 +698,7 @@
 
                 </tfoot>
 
+
             </table>
 
 
@@ -588,30 +706,31 @@
             <!-- =========================================
                  하단
 
-                 위 거래내역과 정확히 같은 7열 사용
-
-                 앞쪽 3칸 = 하나의 공란
-                 수량 + 단가 = 합계
-                 공급가액 + 세액 = 금액
+                 왼쪽 큰 공란
+                 수량+단가 = 합계
+                 공급가액+세액 = 총액
             ========================================== -->
 
             <table class="bottom-table">
 
+
                 <colgroup>
 
-                    <col style="width:6.5%">
 
                     <col style="width:6.5%">
 
-                    <col style="width:39%">
+                    <col style="width:6.5%">
+
+                    <col style="width:36%">
 
                     <col style="width:7%">
 
-                    <col style="width:13.67%">
+                    <col style="width:14.67%">
 
-                    <col style="width:13.67%">
+                    <col style="width:14.67%">
 
-                    <col style="width:13.66%">
+                    <col style="width:14.66%">
+
 
                 </colgroup>
 
@@ -619,13 +738,17 @@
                 <tbody>
 
 
-                <!-- 하단 합계 -->
 
-                <tr>
+                <!-- =====================================
+                     최종 합계
+                ====================================== -->
+
+                <tr class="final-total-row">
+
 
                     <!--
-                    기존 전잔금 + 공란을
-                    하나의 큰 공란으로 합침
+                    월 + 일 + 품목
+                    하나의 공란
                     -->
 
                     <td
@@ -633,6 +756,7 @@
                         class="bottom-blank"
                     >
                     </td>
+
 
 
                     <!--
@@ -643,8 +767,11 @@
                         colspan="2"
                         class="bottom-label"
                     >
+
                         합 계
+
                     </td>
+
 
 
                     <!--
@@ -653,34 +780,45 @@
 
                     <td colspan="2">
 
+
                         <input
                             class="final-total"
                             id="finalTotal"
                             readonly
                         >
 
+
                     </td>
+
 
                 </tr>
 
 
 
-                <!-- 비고 -->
+                <!-- =====================================
+                     비고
+                ====================================== -->
 
                 <tr class="notes-row">
 
+
                     <td class="bottom-label">
+
                         비 고
+
                     </td>
 
 
+
                     <td colspan="6">
+
 
                         <textarea
                             id="notes"
                             class="notes-input"
                             placeholder="현장명, 계좌번호, 기타 사항"
                         ></textarea>
+
 
                     </td>
 
@@ -710,23 +848,31 @@
             class="btn btn-primary"
             onclick="downloadImage()"
         >
+
             이미지로 다운로드
+
         </button>
+
 
 
         <button
             class="btn btn-primary"
             onclick="downloadPDF()"
         >
+
             PDF로 다운로드
+
         </button>
+
 
 
         <button
             class="btn btn-secondary"
             onclick="clearForm()"
         >
+
             초기화
+
         </button>
 
 
@@ -734,6 +880,7 @@
 
 
 </div>
+
 
 
 
@@ -757,15 +904,22 @@ const VALID_CODES = [
 
 function authenticate() {
 
+
     const code =
         document
-            .getElementById('accessCode')
+            .getElementById(
+                'accessCode'
+            )
             .value;
 
 
+
     if (
-        VALID_CODES.includes(code)
+        VALID_CODES.includes(
+            code
+        )
     ) {
+
 
         sessionStorage.setItem(
             'authenticated',
@@ -773,32 +927,51 @@ function authenticate() {
         );
 
 
-        document
-            .getElementById('authContainer')
-            .classList
-            .add('hidden');
-
 
         document
-            .getElementById('appWrapper')
+            .getElementById(
+                'authContainer'
+            )
             .classList
-            .add('active');
+            .add(
+                'hidden'
+            );
+
+
+
+        document
+            .getElementById(
+                'appWrapper'
+            )
+            .classList
+            .add(
+                'active'
+            );
+
 
 
         initForm();
 
+
     } else {
 
+
         document
-            .getElementById('authError')
+            .getElementById(
+                'authError'
+            )
             .textContent =
             '잘못된 코드입니다.';
 
 
+
         document
-            .getElementById('accessCode')
+            .getElementById(
+                'accessCode'
+            )
             .value =
             '';
+
 
     }
 
@@ -806,11 +979,17 @@ function authenticate() {
 
 
 
+/* =========================================================
+   로그아웃
+========================================================= */
+
 function logout() {
+
 
     sessionStorage.removeItem(
         'authenticated'
     );
+
 
     location.reload();
 
@@ -819,14 +998,20 @@ function logout() {
 
 
 /* =========================================================
-   숫자 → 한글
+   숫자 → 한글 금액
 ========================================================= */
 
 function numToKorean(num) {
 
-    if (num === 0) {
+
+    if (
+        num === 0
+    ) {
+
         return '';
+
     }
+
 
 
     const digits = [
@@ -843,6 +1028,7 @@ function numToKorean(num) {
     ];
 
 
+
     const bigUnits = [
         '',
         '만',
@@ -851,23 +1037,35 @@ function numToKorean(num) {
     ];
 
 
+
     let result = '';
 
     let bigIndex = 0;
 
     let n =
-        Math.floor(num);
+        Math.floor(
+            num
+        );
 
 
-    while (n > 0) {
+
+    while (
+        n > 0
+    ) {
+
 
         const segment =
             n % 10000;
 
 
-        if (segment > 0) {
+
+        if (
+            segment > 0
+        ) {
+
 
             let text = '';
+
 
 
             const thousand =
@@ -876,16 +1074,21 @@ function numToKorean(num) {
                 );
 
 
+
             const hundred =
                 Math.floor(
-                    (segment % 1000) / 100
+                    (segment % 1000)
+                    / 100
                 );
+
 
 
             const ten =
                 Math.floor(
-                    (segment % 100) / 10
+                    (segment % 100)
+                    / 10
                 );
+
 
 
             const one =
@@ -893,40 +1096,64 @@ function numToKorean(num) {
 
 
 
-            if (thousand > 0) {
+            if (
+                thousand > 0
+            ) {
+
 
                 text +=
+
                     thousand === 1
+
                         ? '일천'
-                        : digits[thousand] + '천';
+
+                        : digits[thousand]
+                          + '천';
 
             }
 
 
 
-            if (hundred > 0) {
+            if (
+                hundred > 0
+            ) {
+
 
                 text +=
+
                     hundred === 1
+
                         ? '일백'
-                        : digits[hundred] + '백';
+
+                        : digits[hundred]
+                          + '백';
 
             }
 
 
 
-            if (ten > 0) {
+            if (
+                ten > 0
+            ) {
+
 
                 text +=
+
                     ten === 1
+
                         ? '십'
-                        : digits[ten] + '십';
+
+                        : digits[ten]
+                          + '십';
 
             }
 
 
 
-            if (one > 0) {
+            if (
+                one > 0
+            ) {
+
 
                 text +=
                     digits[one];
@@ -934,12 +1161,16 @@ function numToKorean(num) {
             }
 
 
+
             result =
-                text +
-                bigUnits[bigIndex] +
-                result;
+
+                text
+                + bigUnits[bigIndex]
+                + result;
+
 
         }
+
 
 
         n =
@@ -948,9 +1179,12 @@ function numToKorean(num) {
             );
 
 
+
         bigIndex++;
 
+
     }
+
 
 
     return result;
@@ -960,29 +1194,39 @@ function numToKorean(num) {
 
 
 /* =========================================================
-   초기화
+   폼 초기 생성
 ========================================================= */
 
 function initForm() {
+
 
     const today =
         new Date();
 
 
+
     document
-        .getElementById('year')
+        .getElementById(
+            'year'
+        )
         .value =
         today.getFullYear();
 
 
+
     document
-        .getElementById('month')
+        .getElementById(
+            'month'
+        )
         .value =
         today.getMonth() + 1;
 
 
+
     document
-        .getElementById('day')
+        .getElementById(
+            'day'
+        )
         .value =
         today.getDate();
 
@@ -990,16 +1234,18 @@ function initForm() {
 
     const tbody =
         document
-            .getElementById('itemTable');
+            .getElementById(
+                'itemTable'
+            );
 
 
-    tbody.innerHTML = '';
+
+    tbody.innerHTML =
+        '';
 
 
 
-    /*
-    15개 거래 행
-    */
+    /* 거래내역 15줄 */
 
     for (
         let i = 0;
@@ -1007,8 +1253,12 @@ function initForm() {
         i++
     ) {
 
+
         const tr =
-            document.createElement('tr');
+            document.createElement(
+                'tr'
+            );
+
 
 
         tr.innerHTML = `
@@ -1026,6 +1276,7 @@ function initForm() {
             </td>
 
 
+
             <td>
 
                 <input
@@ -1038,6 +1289,7 @@ function initForm() {
             </td>
 
 
+
             <td>
 
                 <input
@@ -1046,6 +1298,7 @@ function initForm() {
                 >
 
             </td>
+
 
 
             <td>
@@ -1060,6 +1313,7 @@ function initForm() {
             </td>
 
 
+
             <td>
 
                 <input
@@ -1071,6 +1325,7 @@ function initForm() {
             </td>
 
 
+
             <td>
 
                 <input
@@ -1080,6 +1335,7 @@ function initForm() {
                 >
 
             </td>
+
 
 
             <td>
@@ -1096,17 +1352,21 @@ function initForm() {
         `;
 
 
+
         bindRow(
             tr,
             i
         );
 
 
+
         tbody.appendChild(
             tr
         );
 
+
     }
+
 
 
     calcTotals();
@@ -1124,24 +1384,39 @@ function bindRow(
     index
 ) {
 
+
     const month =
-        tr.querySelector('.m');
+        tr.querySelector(
+            '.m'
+        );
+
 
 
     const day =
-        tr.querySelector('.d');
+        tr.querySelector(
+            '.d'
+        );
+
 
 
     const name =
-        tr.querySelector('.name');
+        tr.querySelector(
+            '.name'
+        );
+
 
 
     const qty =
-        tr.querySelector('.qty');
+        tr.querySelector(
+            '.qty'
+        );
+
 
 
     const price =
-        tr.querySelector('.price');
+        tr.querySelector(
+            '.price'
+        );
 
 
 
@@ -1151,6 +1426,7 @@ function bindRow(
         'blur',
         function() {
 
+
             const raw =
                 this.value
                     .replace(
@@ -1159,18 +1435,27 @@ function bindRow(
                     );
 
 
+
             if (
-                raw !== '' &&
-                !isNaN(raw)
+                raw !== ''
+                &&
+                !isNaN(
+                    raw
+                )
             ) {
 
+
                 this.value =
-                    Number(raw)
-                        .toLocaleString(
-                            'ko-KR'
-                        );
+                    Number(
+                        raw
+                    )
+                    .toLocaleString(
+                        'ko-KR'
+                    );
+
 
             }
+
 
         }
     );
@@ -1181,38 +1466,54 @@ function bindRow(
 
     qty.addEventListener(
         'input',
-        () => calcRow(tr)
+        () =>
+            calcRow(
+                tr
+            )
     );
+
 
 
     price.addEventListener(
         'input',
-        () => calcRow(tr)
+        () =>
+            calcRow(
+                tr
+            )
     );
 
 
 
-    /* 첫 번째 줄 자동 품목 */
+    /* 첫 행 품목 자동 */
 
     const autoName =
         () => {
 
+
             if (
-                index === 0 &&
-                !name.value &&
+                index === 0
+                &&
+                !name.value
+                &&
                 (
-                    month.value ||
-                    day.value ||
+                    month.value
+                    ||
+                    day.value
+                    ||
                     price.value
                 )
             ) {
 
+
                 name.value =
                     '지게차 사용료';
 
+
             }
 
+
         };
+
 
 
     month.addEventListener(
@@ -1221,10 +1522,12 @@ function bindRow(
     );
 
 
+
     day.addEventListener(
         'change',
         autoName
     );
+
 
 
     price.addEventListener(
@@ -1235,84 +1538,115 @@ function bindRow(
 
 
     /*
-    두 번째 행 이후
+    두 번째 줄부터
+    일 입력 시
 
-    일 입력 →
-    첫 행 월 / 품목 / 단가 자동복사
+    월
+    품목
+    단가
+
+    첫 번째 줄과 동일하게 복사
     */
 
     day.addEventListener(
         'change',
         function() {
 
+
             if (
-                index > 0 &&
+                index > 0
+                &&
                 this.value
             ) {
 
+
                 const firstRow =
-                    document.querySelector(
-                        '#itemTable tr'
-                    );
+                    document
+                        .querySelector(
+                            '#itemTable tr'
+                        );
+
 
 
                 const firstMonth =
                     firstRow
-                        .querySelector('.m')
+                        .querySelector(
+                            '.m'
+                        )
                         .value;
+
 
 
                 const firstName =
                     firstRow
-                        .querySelector('.name')
+                        .querySelector(
+                            '.name'
+                        )
                         .value;
+
 
 
                 const firstPrice =
                     firstRow
-                        .querySelector('.price')
+                        .querySelector(
+                            '.price'
+                        )
                         .value;
 
 
 
                 if (
-                    firstMonth &&
+                    firstMonth
+                    &&
                     !month.value
                 ) {
+
 
                     month.value =
                         firstMonth;
 
+
                 }
 
 
 
                 if (
-                    firstName &&
+                    firstName
+                    &&
                     !name.value
                 ) {
+
 
                     name.value =
                         firstName;
 
+
                 }
 
 
 
                 if (
-                    firstPrice &&
+                    firstPrice
+                    &&
                     !price.value
                 ) {
+
 
                     price.value =
                         firstPrice;
 
+
                 }
 
 
-                calcRow(tr);
+
+                calcRow(
+                    tr
+                );
+
 
             }
+
 
         }
     );
@@ -1322,69 +1656,104 @@ function bindRow(
 
 
 /* =========================================================
-   행 계산
+   한 행 계산
 ========================================================= */
 
-function calcRow(tr) {
+function calcRow(
+    tr
+) {
 
 
     const qty =
+
         parseFloat(
+
             tr
-                .querySelector('.qty')
+                .querySelector(
+                    '.qty'
+                )
                 .value
-        ) || 0;
+
+        )
+
+        || 0;
 
 
 
     const price =
+
         parseFloat(
 
             (
                 tr
-                    .querySelector('.price')
+                    .querySelector(
+                        '.price'
+                    )
                     .value
+
                 || ''
             )
-                .replace(
-                    /,/g,
-                    ''
-                )
+            .replace(
+                /,/g,
+                ''
+            )
 
-        ) || 0;
+        )
+
+        || 0;
 
 
 
     const supply =
+
         Math.round(
-            qty * price
+            qty
+            *
+            price
         );
 
 
 
     const tax =
+
         Math.round(
-            supply * 0.1
+            supply
+            *
+            0.1
         );
 
 
 
     tr
-        .querySelector('.supply')
+        .querySelector(
+            '.supply'
+        )
         .value =
 
         supply > 0
-            ? supply.toLocaleString('ko-KR')
+
+            ? supply
+                .toLocaleString(
+                    'ko-KR'
+                )
+
             : '';
 
 
 
     tr
-        .querySelector('.tax')
+        .querySelector(
+            '.tax'
+        )
         .value =
 
         tax > 0
-            ? tax.toLocaleString('ko-KR')
+
+            ? tax
+                .toLocaleString(
+                    'ko-KR'
+                )
+
             : '';
 
 
@@ -1396,17 +1765,17 @@ function calcRow(tr) {
 
 
 /* =========================================================
-   합계
+   전체 합계
 ========================================================= */
 
 function calcTotals() {
 
 
-    let qty = 0;
+    let totalQty = 0;
 
-    let supply = 0;
+    let totalSupply = 0;
 
-    let tax = 0;
+    let totalTax = 0;
 
 
 
@@ -1418,48 +1787,68 @@ function calcTotals() {
             tr => {
 
 
-                qty +=
+                totalQty +=
+
                     parseFloat(
+
                         tr
-                            .querySelector('.qty')
+                            .querySelector(
+                                '.qty'
+                            )
                             .value
-                    ) || 0;
+
+                    )
+
+                    || 0;
 
 
 
-                supply +=
+                totalSupply +=
+
                     parseFloat(
 
                         (
                             tr
-                                .querySelector('.supply')
+                                .querySelector(
+                                    '.supply'
+                                )
                                 .value
+
                             || ''
                         )
-                            .replace(
-                                /,/g,
-                                ''
-                            )
+                        .replace(
+                            /,/g,
+                            ''
+                        )
 
-                    ) || 0;
+                    )
+
+                    || 0;
 
 
 
-                tax +=
+                totalTax +=
+
                     parseFloat(
 
                         (
                             tr
-                                .querySelector('.tax')
+                                .querySelector(
+                                    '.tax'
+                                )
                                 .value
+
                             || ''
                         )
-                            .replace(
-                                /,/g,
-                                ''
-                            )
+                        .replace(
+                            /,/g,
+                            ''
+                        )
 
-                    ) || 0;
+                    )
+
+                    || 0;
+
 
             }
         );
@@ -1467,69 +1856,116 @@ function calcTotals() {
 
 
     const total =
-        supply + tax;
+        totalSupply
+        +
+        totalTax;
 
 
 
     const format =
         value =>
-            Number(value)
-                .toLocaleString(
-                    'ko-KR'
-                );
+
+            Number(
+                value
+            )
+            .toLocaleString(
+                'ko-KR'
+            );
 
 
 
     document
-        .getElementById('sumQty')
+        .getElementById(
+            'sumQty'
+        )
         .value =
-        qty
-            ? format(qty)
+
+        totalQty
+
+            ? format(
+                totalQty
+            )
+
             : '';
 
 
 
     document
-        .getElementById('sumSupply')
+        .getElementById(
+            'sumSupply'
+        )
         .value =
-        supply
-            ? format(supply)
+
+        totalSupply
+
+            ? format(
+                totalSupply
+            )
+
             : '';
 
 
 
     document
-        .getElementById('sumTax')
+        .getElementById(
+            'sumTax'
+        )
         .value =
-        tax
-            ? format(tax)
+
+        totalTax
+
+            ? format(
+                totalTax
+            )
+
             : '';
 
 
 
     document
-        .getElementById('totalAmount')
+        .getElementById(
+            'totalAmount'
+        )
         .textContent =
+
         total
-            ? format(total)
+
+            ? format(
+                total
+            )
+
             : '';
 
 
 
     document
-        .getElementById('totalKorean')
+        .getElementById(
+            'totalKorean'
+        )
         .textContent =
+
         total
-            ? numToKorean(total)
+
+            ? numToKorean(
+                total
+            )
+
             : '';
 
 
 
     document
-        .getElementById('finalTotal')
+        .getElementById(
+            'finalTotal'
+        )
         .value =
+
         total
-            ? format(total)
+
+            ? format(
+                total
+            )
+
             : '';
 
 }
@@ -1548,20 +1984,26 @@ function clearForm() {
             '정말 초기화하시겠습니까?'
         )
     ) {
+
         return;
+
     }
 
 
 
     document
-        .getElementById('buyerName')
+        .getElementById(
+            'buyerName'
+        )
         .value =
         '';
 
 
 
     document
-        .getElementById('notes')
+        .getElementById(
+            'notes'
+        )
         .value =
         '';
 
@@ -1574,8 +2016,10 @@ function clearForm() {
         .forEach(
             input => {
 
+
                 input.value =
                     '';
+
 
             }
         );
@@ -1596,9 +2040,10 @@ async function downloadImage() {
 
 
     const element =
-        document.getElementById(
-            'invoiceFrame'
-        );
+        document
+            .getElementById(
+                'invoiceFrame'
+            );
 
 
 
@@ -1607,14 +2052,21 @@ async function downloadImage() {
             element,
             {
 
+
                 scale: 3,
+
 
                 backgroundColor:
                     '#ffffff',
 
-                useCORS: true,
 
-                logging: false
+                useCORS:
+                    true,
+
+
+                logging:
+                    false
+
 
             }
         );
@@ -1622,23 +2074,28 @@ async function downloadImage() {
 
 
     const link =
-        document.createElement(
-            'a'
-        );
+        document
+            .createElement(
+                'a'
+            );
 
 
 
     link.href =
-        canvas.toDataURL(
-            'image/png',
-            1
-        );
+        canvas
+            .toDataURL(
+                'image/png',
+                1
+            );
 
 
 
     link.download =
-        '거래명세서_' +
-        Date.now() +
+
+        '거래명세서_'
+        +
+        Date.now()
+        +
         '.png';
 
 
@@ -1650,16 +2107,17 @@ async function downloadImage() {
 
 
 /* =========================================================
-   PDF
+   PDF 다운로드
 ========================================================= */
 
 function downloadPDF() {
 
 
     const element =
-        document.getElementById(
-            'invoiceFrame'
-        );
+        document
+            .getElementById(
+                'invoiceFrame'
+            );
 
 
 
@@ -1674,10 +2132,15 @@ function downloadPDF() {
         ],
 
 
+
         filename:
-            '거래명세서_' +
-            Date.now() +
+
+            '거래명세서_'
+            +
+            Date.now()
+            +
             '.pdf',
+
 
 
         image: {
@@ -1691,54 +2154,80 @@ function downloadPDF() {
         },
 
 
+
         html2canvas: {
+
 
             scale:
                 3,
 
+
             backgroundColor:
                 '#ffffff',
+
 
             useCORS:
                 true,
 
+
             logging:
                 false
 
+
         },
+
 
 
         jsPDF: {
 
+
             orientation:
                 'portrait',
+
 
             unit:
                 'mm',
 
+
             format:
                 'a4'
+
 
         },
 
 
+
         pagebreak: {
 
+
             mode: [
+
                 'avoid-all',
+
                 'css',
+
                 'legacy'
+
             ]
 
+
         }
+
 
     };
 
 
 
     html2pdf()
-        .set(options)
-        .from(element)
+
+        .set(
+            options
+        )
+
+        .from(
+            element
+        )
+
         .save();
 
 }
@@ -1755,9 +2244,12 @@ window.addEventListener(
 
 
         if (
-            sessionStorage.getItem(
-                'authenticated'
-            ) === 'true'
+            sessionStorage
+                .getItem(
+                    'authenticated'
+                )
+            ===
+            'true'
         ) {
 
 
@@ -1766,7 +2258,9 @@ window.addEventListener(
                     'authContainer'
                 )
                 .classList
-                .add('hidden');
+                .add(
+                    'hidden'
+                );
 
 
 
@@ -1775,13 +2269,17 @@ window.addEventListener(
                     'appWrapper'
                 )
                 .classList
-                .add('active');
+                .add(
+                    'active'
+                );
 
 
 
             initForm();
 
+
         }
+
 
     }
 );
