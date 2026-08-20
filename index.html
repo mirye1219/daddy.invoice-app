@@ -2,578 +2,745 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>거래명세서</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
 
-    <!-- =====================================================
-         인증
-    ====================================================== -->
 
-    <div class="auth-container" id="authContainer">
+<!-- =====================================================
+     인증
+====================================================== -->
 
-        <div class="auth-box">
+<div
+    class="auth-container"
+    id="authContainer"
+>
 
-            <h1>거래명세서</h1>
+    <div class="auth-box">
 
-            <p>접근 코드를 입력하세요</p>
+        <h1>거래명세서</h1>
 
-            <div
-                id="authError"
-                class="auth-error"
-            ></div>
+        <p>
+            접근 코드를 입력하세요
+        </p>
 
-            <input
-                type="password"
-                id="accessCode"
-                placeholder="접근 코드"
-                onkeypress="if(event.key === 'Enter') authenticate()"
-            >
+        <div
+            id="authError"
+            class="auth-error"
+        ></div>
 
-            <button onclick="authenticate()">
-                접근
-            </button>
+        <input
+            type="password"
+            id="accessCode"
+            placeholder="접근 코드"
+            onkeypress="if(event.key === 'Enter') authenticate()"
+        >
 
-        </div>
+        <button onclick="authenticate()">
+            접근
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     앱
+====================================================== -->
+
+<div
+    class="app-wrapper"
+    id="appWrapper"
+>
+
+    <div class="header">
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            로그아웃
+        </button>
 
     </div>
 
 
-    <!-- =====================================================
-         앱
-    ====================================================== -->
+    <!-- =================================================
+         A4
+    ================================================== -->
 
-    <div
-        class="app-wrapper"
-        id="appWrapper"
-    >
+    <div class="paper">
 
-        <div class="header">
+        <div
+            class="invoice-frame"
+            id="invoiceFrame"
+        >
 
-            <button
-                class="logout-btn"
-                onclick="logout()"
-            >
-                로그아웃
-            </button>
 
-        </div>
+            <!-- =========================================
+                 제목
+            ========================================== -->
 
-
-        <!-- =================================================
-             A4 종이
-        ================================================== -->
-
-        <div class="paper">
-
-            <div
-                class="invoice-frame"
-                id="invoiceFrame"
-            >
-
-
-                <!-- =========================================
-                     제목
-                ========================================== -->
-
-                <div class="invoice-title">
-                    거 래 명 세 서
-                </div>
-
-
-                <!-- =========================================
-                     상단
-                ========================================== -->
-
-                <table class="top-table">
-
-                    <colgroup>
-                        <col style="width:42%">
-                        <col style="width:7%">
-                        <col style="width:51%">
-                    </colgroup>
-
-                    <tbody>
-
-                        <tr>
-
-                            <!-- 공급받는 자 -->
-
-                            <td class="top-cell">
-
-                                <table class="buyer-table">
-
-                                    <tbody>
-
-                                        <tr>
-
-                                            <td class="date-cell">
-
-                                                <div class="date-box">
-
-                                                    <input
-                                                        class="date-input year"
-                                                        id="year"
-                                                        type="number"
-                                                        min="2000"
-                                                        max="2100"
-                                                    >
-
-                                                    <span>년</span>
-
-                                                    <input
-                                                        class="date-input small"
-                                                        id="month"
-                                                        type="number"
-                                                        min="1"
-                                                        max="12"
-                                                    >
-
-                                                    <span>월</span>
-
-                                                    <input
-                                                        class="date-input small"
-                                                        id="day"
-                                                        type="number"
-                                                        min="1"
-                                                        max="31"
-                                                    >
-
-                                                    <span>일</span>
-
-                                                </div>
-
-                                            </td>
-
-                                        </tr>
-
-
-                                        <tr>
-
-                                            <td class="buyer-cell">
-
-                                                <div class="buyer-row">
-
-                                                    <input
-                                                        id="buyerName"
-                                                        type="text"
-                                                        placeholder="회사명(업체명) 입력"
-                                                    >
-
-                                                    <span class="gwiha">
-                                                        귀하
-                                                    </span>
-
-                                                </div>
-
-                                            </td>
-
-                                        </tr>
-
-
-                                        <tr>
-
-                                            <td class="calc-cell">
-                                                아래와 같이 계산합니다.
-                                            </td>
-
-                                        </tr>
-
-                                    </tbody>
-
-                                </table>
-
-                            </td>
-
-
-                            <!-- 공급자 세로칸 -->
-
-                            <td class="supplier-vertical">
-                                공급자
-                            </td>
-
-
-                            <!-- 공급자 정보 -->
-
-                            <td class="top-cell">
-
-                                <table class="supplier-table">
-
-                                    <colgroup>
-                                        <col style="width:23%">
-                                        <col style="width:27%">
-                                        <col style="width:18%">
-                                        <col style="width:32%">
-                                    </colgroup>
-
-                                    <tbody>
-
-                                        <tr>
-
-                                            <td class="label-cell">
-                                                등록번호
-                                            </td>
-
-                                            <td
-                                                colspan="3"
-                                                class="supplier-value"
-                                            >
-                                                107-62-66145
-                                            </td>
-
-                                        </tr>
-
-
-                                        <tr>
-
-                                            <td class="label-cell">
-                                                상 호
-                                            </td>
-
-                                            <td class="supplier-value">
-                                                삼우건기
-                                            </td>
-
-                                            <td class="label-cell">
-                                                성 명
-                                            </td>
-
-                                            <td class="supplier-name-cell">
-
-                                                <span>
-                                                    김재성
-                                                </span>
-
-                                                <img
-                                                    class="seal-img"
-                                                    src="data:image/png;base64,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"
-                                                    alt="도장"
-                                                >
-
-                                            </td>
-
-                                        </tr>
-
-
-                                        <tr>
-
-                                            <td class="label-cell address-label">
-                                                사업장<br>
-                                                소 재 지
-                                            </td>
-
-                                            <td
-                                                colspan="3"
-                                                class="address-cell"
-                                            >
-                                                경기 수원 권선구 호매실로 104번길 24-61,<br>
-                                                1동 1003호 (호매실동, 금호프라자)
-                                            </td>
-
-                                        </tr>
-
-
-                                        <tr>
-
-                                            <td class="label-cell">
-                                                업 태
-                                            </td>
-
-                                            <td class="supplier-value">
-                                                건설
-                                            </td>
-
-                                            <td class="label-cell">
-                                                종 목
-                                            </td>
-
-                                            <td class="supplier-value">
-                                                건설기계대여
-                                            </td>
-
-                                        </tr>
-
-                                    </tbody>
-
-                                </table>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-
-                <!-- =========================================
-                     합계금액
-                ========================================== -->
-
-                <table class="total-header-table">
-
-                    <colgroup>
-                        <col style="width:13%">
-                        <col style="width:27%">
-                        <col style="width:11%">
-                        <col style="width:10%">
-                        <col style="width:25%">
-                        <col style="width:14%">
-                    </colgroup>
-
-                    <tbody>
-
-                        <tr>
-
-                            <td class="total-title">
-                                합계금액
-                            </td>
-
-                            <td
-                                id="totalKorean"
-                                class="total-korean"
-                            ></td>
-
-                            <td class="won-text">
-                                원정
-                            </td>
-
-                            <td class="currency-open">
-                                ( ₩
-                            </td>
-
-                            <td
-                                id="totalAmount"
-                                class="total-number"
-                            >
-                                0
-                            </td>
-
-                            <td class="currency-close">
-                                )
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-
-                <!-- =========================================
-                     거래내역
-                ========================================== -->
-
-                <table class="items-table">
-
-                    <colgroup>
-                        <col style="width:6.5%">
-                        <col style="width:6.5%">
-                        <col style="width:33%">
-                        <col style="width:7%">
-                        <col style="width:11%">
-                        <col style="width:11%">
-                        <col style="width:11%">
-                        <col style="width:14%">
-                    </colgroup>
-
-
-                    <thead>
-
-                        <tr>
-
-                            <th>월</th>
-                            <th>일</th>
-                            <th>품 목</th>
-                            <th>수 량</th>
-                            <th>단 가</th>
-                            <th>공급가액</th>
-                            <th>세 액</th>
-                            <th>비 고</th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="itemTable">
-                    </tbody>
-
-
-                    <tfoot>
-
-                        <tr>
-
-                            <td
-                                colspan="3"
-                                class="sum-label"
-                            >
-                                계
-                            </td>
-
-                            <td>
-
-                                <input
-                                    class="table-input number"
-                                    id="sumQty"
-                                    value="0"
-                                    readonly
-                                >
-
-                            </td>
-
-                            <td></td>
-
-                            <td>
-
-                                <input
-                                    class="table-input number"
-                                    id="sumSupply"
-                                    value="0"
-                                    readonly
-                                >
-
-                            </td>
-
-                            <td>
-
-                                <input
-                                    class="table-input number"
-                                    id="sumTax"
-                                    value="0"
-                                    readonly
-                                >
-
-                            </td>
-
-                            <td></td>
-
-                        </tr>
-
-                    </tfoot>
-
-                </table>
-
-
-                <!-- =========================================
-                     하단
-                ========================================== -->
-
-                <table class="bottom-table">
-
-                    <colgroup>
-                        <col style="width:13%">
-                        <col style="width:37%">
-                        <col style="width:17%">
-                        <col style="width:33%">
-                    </colgroup>
-
-                    <tbody>
-
-                        <tr>
-
-                            <td class="bottom-label">
-                                전 잔 금
-                            </td>
-
-                            <td>
-                                <input
-                                    id="previousBalance"
-                                    class="bottom-input"
-                                    type="text"
-                                >
-                            </td>
-
-                            <td class="bottom-label">
-                                합 계
-                            </td>
-
-                            <td>
-
-                                <input
-                                    class="final-total"
-                                    id="finalTotal"
-                                    value="0"
-                                    readonly
-                                >
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr class="notes-row">
-
-                            <td class="bottom-label">
-                                비 고
-                            </td>
-
-                            <td colspan="3">
-
-                                <textarea
-                                    id="notes"
-                                    class="notes-input"
-                                    placeholder="현장명, 계좌번호, 기타 사항"
-                                ></textarea>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-
+            <div class="invoice-title">
+                거 래 명 세 서
             </div>
 
-        </div>
 
 
-        <!-- =================================================
-             버튼
-        ================================================== -->
+            <!-- =========================================
+                 상단
+            ========================================== -->
 
-        <div class="buttons">
+            <table class="top-table">
 
-            <button
-                class="btn btn-primary"
-                onclick="downloadImage()"
-            >
-                이미지로 다운로드
-            </button>
+                <colgroup>
+                    <col style="width:42%">
+                    <col style="width:7%">
+                    <col style="width:51%">
+                </colgroup>
 
-            <button
-                class="btn btn-primary"
-                onclick="downloadPDF()"
-            >
-                PDF로 다운로드
-            </button>
+                <tbody>
 
-            <button
-                class="btn btn-secondary"
-                onclick="clearForm()"
-            >
-                초기화
-            </button>
+                <tr>
+
+
+                    <!-- ===============================
+                         공급받는 자
+                    ================================ -->
+
+                    <td class="top-cell">
+
+                        <table class="buyer-table">
+
+                            <tbody>
+
+
+                            <!-- 날짜 -->
+
+                            <tr>
+
+                                <td class="date-cell">
+
+                                    <div class="date-box">
+
+                                        <input
+                                            class="date-input year"
+                                            id="year"
+                                            type="number"
+                                            min="2000"
+                                            max="2100"
+                                        >
+
+                                        <span>년</span>
+
+                                        <input
+                                            class="date-input small"
+                                            id="month"
+                                            type="number"
+                                            min="1"
+                                            max="12"
+                                        >
+
+                                        <span>월</span>
+
+                                        <input
+                                            class="date-input small"
+                                            id="day"
+                                            type="number"
+                                            min="1"
+                                            max="31"
+                                        >
+
+                                        <span>일</span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- 거래처 -->
+
+                            <tr>
+
+                                <td class="buyer-cell">
+
+                                    <div class="buyer-row">
+
+                                        <input
+                                            id="buyerName"
+                                            type="text"
+                                            placeholder="회사명(업체명) 입력"
+                                        >
+
+                                        <span class="gwiha">
+                                            귀하
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- 계산 문구 -->
+
+                            <tr>
+
+                                <td class="calc-cell">
+                                    아래와 같이 계산합니다.
+                                </td>
+
+                            </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </td>
+
+
+
+                    <!-- ===============================
+                         공급자
+                    ================================ -->
+
+                    <td class="supplier-vertical">
+                        공<br>급<br>자
+                    </td>
+
+
+
+                    <!-- ===============================
+                         공급자 정보
+                    ================================ -->
+
+                    <td class="top-cell">
+
+                        <table class="supplier-table">
+
+                            <colgroup>
+
+                                <col style="width:23%">
+
+                                <col style="width:27%">
+
+                                <col style="width:18%">
+
+                                <col style="width:32%">
+
+                            </colgroup>
+
+
+                            <tbody>
+
+
+                            <!-- 등록번호 -->
+
+                            <tr>
+
+                                <td class="label-cell">
+                                    등록번호
+                                </td>
+
+                                <td
+                                    colspan="3"
+                                    class="supplier-value"
+                                >
+                                    107-62-66145
+                                </td>
+
+                            </tr>
+
+
+                            <!-- 상호 / 성명 -->
+
+                            <tr>
+
+                                <td class="label-cell">
+                                    상 호
+                                </td>
+
+                                <td class="supplier-value">
+                                    삼우건기
+                                </td>
+
+                                <td class="label-cell">
+                                    성 명
+                                </td>
+
+                                <td class="supplier-name-cell">
+
+                                    <span>
+                                        김재성
+                                    </span>
+
+
+                                    <!--
+                                    ★ 중요 ★
+
+                                    아래 src="..." 안에는
+                                    기존 index.html에서 사용하던
+                                    긴 base64 값을 그대로 넣어주세요.
+                                    -->
+
+                                    <img
+                                        class="seal-img"
+                                        src="기존 도장 BASE64"
+                                        alt="도장"
+                                    >
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- 사업장 소재지 -->
+
+                            <tr>
+
+                                <td class="label-cell address-label">
+
+                                    사업장<br>
+                                    소 재 지
+
+                                </td>
+
+                                <td
+                                    colspan="3"
+                                    class="address-cell"
+                                >
+
+                                    경기 수원 권선구 호매실로 104번길 24-61,<br>
+
+                                    1동 1003호
+                                    (호매실동, 금호프라자)
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- 업태 / 종목 -->
+
+                            <tr>
+
+                                <td class="label-cell">
+                                    업 태
+                                </td>
+
+                                <td class="supplier-value">
+                                    건설
+                                </td>
+
+                                <td class="label-cell">
+                                    종 목
+                                </td>
+
+                                <td class="supplier-value">
+                                    건설기계대여
+                                </td>
+
+                            </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </td>
+
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+
+
+            <!-- =========================================
+                 합계 금액
+            ========================================== -->
+
+            <table class="total-header-table">
+
+                <colgroup>
+
+                    <col style="width:13%">
+
+                    <col style="width:27%">
+
+                    <col style="width:11%">
+
+                    <col style="width:10%">
+
+                    <col style="width:25%">
+
+                    <col style="width:14%">
+
+                </colgroup>
+
+
+                <tbody>
+
+                <tr>
+
+
+                    <td class="total-title">
+                        합계금액
+                    </td>
+
+
+                    <td
+                        id="totalKorean"
+                        class="total-korean"
+                    ></td>
+
+
+                    <td class="won-text">
+                        원정
+                    </td>
+
+
+                    <td class="currency-open">
+                        ( ₩
+                    </td>
+
+
+                    <td
+                        id="totalAmount"
+                        class="total-number"
+                    ></td>
+
+
+                    <td class="currency-close">
+                        )
+                    </td>
+
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+
+
+            <!-- =========================================
+                 거래내역
+
+                 월      6.5
+                 일      6.5
+                 품목    39
+                 수량    7
+                 단가    13.67
+                 공급    13.67
+                 세액    13.66
+
+                 = 100%
+            ========================================== -->
+
+            <table class="items-table">
+
+                <colgroup>
+
+                    <col style="width:6.5%">
+
+                    <col style="width:6.5%">
+
+                    <col style="width:39%">
+
+                    <col style="width:7%">
+
+                    <col style="width:13.67%">
+
+                    <col style="width:13.67%">
+
+                    <col style="width:13.66%">
+
+                </colgroup>
+
+
+                <thead>
+
+                <tr>
+
+                    <th>
+                        월
+                    </th>
+
+                    <th>
+                        일
+                    </th>
+
+                    <th>
+                        품 목
+                    </th>
+
+                    <th>
+                        수 량
+                    </th>
+
+                    <th>
+                        단 가
+                    </th>
+
+                    <th>
+                        공급가액
+                    </th>
+
+                    <th>
+                        세 액
+                    </th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="itemTable">
+                </tbody>
+
+
+                <!-- ===============================
+                     계
+                ================================ -->
+
+                <tfoot>
+
+                <tr>
+
+                    <td
+                        colspan="3"
+                        class="sum-label"
+                    >
+                        계
+                    </td>
+
+
+                    <td>
+
+                        <input
+                            class="table-input number"
+                            id="sumQty"
+                            readonly
+                        >
+
+                    </td>
+
+
+                    <td>
+                    </td>
+
+
+                    <td>
+
+                        <input
+                            class="table-input number"
+                            id="sumSupply"
+                            readonly
+                        >
+
+                    </td>
+
+
+                    <td>
+
+                        <input
+                            class="table-input number"
+                            id="sumTax"
+                            readonly
+                        >
+
+                    </td>
+
+
+                </tr>
+
+                </tfoot>
+
+            </table>
+
+
+
+            <!-- =========================================
+                 하단
+
+                 위 거래내역과 정확히 같은 7열 사용
+
+                 앞쪽 3칸 = 하나의 공란
+                 수량 + 단가 = 합계
+                 공급가액 + 세액 = 금액
+            ========================================== -->
+
+            <table class="bottom-table">
+
+                <colgroup>
+
+                    <col style="width:6.5%">
+
+                    <col style="width:6.5%">
+
+                    <col style="width:39%">
+
+                    <col style="width:7%">
+
+                    <col style="width:13.67%">
+
+                    <col style="width:13.67%">
+
+                    <col style="width:13.66%">
+
+                </colgroup>
+
+
+                <tbody>
+
+
+                <!-- 하단 합계 -->
+
+                <tr>
+
+                    <!--
+                    기존 전잔금 + 공란을
+                    하나의 큰 공란으로 합침
+                    -->
+
+                    <td
+                        colspan="3"
+                        class="bottom-blank"
+                    >
+                    </td>
+
+
+                    <!--
+                    수량 + 단가
+                    -->
+
+                    <td
+                        colspan="2"
+                        class="bottom-label"
+                    >
+                        합 계
+                    </td>
+
+
+                    <!--
+                    공급가액 + 세액
+                    -->
+
+                    <td colspan="2">
+
+                        <input
+                            class="final-total"
+                            id="finalTotal"
+                            readonly
+                        >
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- 비고 -->
+
+                <tr class="notes-row">
+
+                    <td class="bottom-label">
+                        비 고
+                    </td>
+
+
+                    <td colspan="6">
+
+                        <textarea
+                            id="notes"
+                            class="notes-input"
+                            placeholder="현장명, 계좌번호, 기타 사항"
+                        ></textarea>
+
+                    </td>
+
+
+                </tr>
+
+
+                </tbody>
+
+            </table>
+
 
         </div>
 
     </div>
+
+
+
+    <!-- =================================================
+         버튼
+    ================================================== -->
+
+    <div class="buttons">
+
+
+        <button
+            class="btn btn-primary"
+            onclick="downloadImage()"
+        >
+            이미지로 다운로드
+        </button>
+
+
+        <button
+            class="btn btn-primary"
+            onclick="downloadPDF()"
+        >
+            PDF로 다운로드
+        </button>
+
+
+        <button
+            class="btn btn-secondary"
+            onclick="clearForm()"
+        >
+            초기화
+        </button>
+
+
+    </div>
+
+
+</div>
+
 
 
 <script>
 
 /* =========================================================
-   접근코드
+   접근 코드
 ========================================================= */
 
 const VALID_CODES = [
@@ -583,6 +750,7 @@ const VALID_CODES = [
 ];
 
 
+
 /* =========================================================
    인증
 ========================================================= */
@@ -590,41 +758,52 @@ const VALID_CODES = [
 function authenticate() {
 
     const code =
-        document.getElementById('accessCode').value;
+        document
+            .getElementById('accessCode')
+            .value;
 
-    if (VALID_CODES.includes(code)) {
+
+    if (
+        VALID_CODES.includes(code)
+    ) {
 
         sessionStorage.setItem(
             'authenticated',
             'true'
         );
 
+
         document
             .getElementById('authContainer')
             .classList
             .add('hidden');
+
 
         document
             .getElementById('appWrapper')
             .classList
             .add('active');
 
+
         initForm();
 
     } else {
 
-        document.getElementById(
-            'authError'
-        ).textContent =
+        document
+            .getElementById('authError')
+            .textContent =
             '잘못된 코드입니다.';
 
-        document.getElementById(
-            'accessCode'
-        ).value = '';
+
+        document
+            .getElementById('accessCode')
+            .value =
+            '';
 
     }
 
 }
+
 
 
 function logout() {
@@ -638,8 +817,9 @@ function logout() {
 }
 
 
+
 /* =========================================================
-   숫자 → 한글금액
+   숫자 → 한글
 ========================================================= */
 
 function numToKorean(num) {
@@ -647,6 +827,7 @@ function numToKorean(num) {
     if (num === 0) {
         return '';
     }
+
 
     const digits = [
         '',
@@ -661,6 +842,7 @@ function numToKorean(num) {
         '구'
     ];
 
+
     const bigUnits = [
         '',
         '만',
@@ -668,97 +850,113 @@ function numToKorean(num) {
         '조'
     ];
 
+
     let result = '';
+
     let bigIndex = 0;
-    let n = Math.floor(num);
+
+    let n =
+        Math.floor(num);
+
 
     while (n > 0) {
 
         const segment =
             n % 10000;
 
+
         if (segment > 0) {
 
-            let segmentString = '';
+            let text = '';
+
 
             const thousand =
                 Math.floor(
                     segment / 1000
                 );
 
+
             const hundred =
                 Math.floor(
-                    (segment % 1000) /
-                    100
+                    (segment % 1000) / 100
                 );
+
 
             const ten =
                 Math.floor(
-                    (segment % 100) /
-                    10
+                    (segment % 100) / 10
                 );
+
 
             const one =
                 segment % 10;
 
 
+
             if (thousand > 0) {
 
-                segmentString +=
+                text +=
                     thousand === 1
-                    ? '일천'
-                    : digits[thousand] + '천';
+                        ? '일천'
+                        : digits[thousand] + '천';
 
             }
+
 
 
             if (hundred > 0) {
 
-                segmentString +=
+                text +=
                     hundred === 1
-                    ? '일백'
-                    : digits[hundred] + '백';
+                        ? '일백'
+                        : digits[hundred] + '백';
 
             }
+
 
 
             if (ten > 0) {
 
-                segmentString +=
+                text +=
                     ten === 1
-                    ? '십'
-                    : digits[ten] + '십';
+                        ? '십'
+                        : digits[ten] + '십';
 
             }
 
 
+
             if (one > 0) {
 
-                segmentString +=
+                text +=
                     digits[one];
 
             }
 
 
             result =
-                segmentString +
+                text +
                 bigUnits[bigIndex] +
                 result;
 
         }
+
 
         n =
             Math.floor(
                 n / 10000
             );
 
+
         bigIndex++;
 
     }
 
+
     return result;
 
 }
+
 
 
 /* =========================================================
@@ -770,34 +968,39 @@ function initForm() {
     const today =
         new Date();
 
-    document.getElementById(
-        'year'
-    ).value =
+
+    document
+        .getElementById('year')
+        .value =
         today.getFullYear();
 
-    document.getElementById(
-        'month'
-    ).value =
+
+    document
+        .getElementById('month')
+        .value =
         today.getMonth() + 1;
 
-    document.getElementById(
-        'day'
-    ).value =
+
+    document
+        .getElementById('day')
+        .value =
         today.getDate();
 
 
+
     const tbody =
-        document.getElementById(
-            'itemTable'
-        );
+        document
+            .getElementById('itemTable');
+
 
     tbody.innerHTML = '';
 
 
+
     /*
-      1번 서식에 가까운 밀도를 위해
-      15행 생성
+    15개 거래 행
     */
+
     for (
         let i = 0;
         i < 15;
@@ -805,83 +1008,99 @@ function initForm() {
     ) {
 
         const tr =
-            document.createElement(
-                'tr'
-            );
+            document.createElement('tr');
+
 
         tr.innerHTML = `
 
+
             <td>
+
                 <input
                     class="table-input number m"
                     type="number"
                     min="1"
                     max="12"
                 >
+
             </td>
 
+
             <td>
+
                 <input
                     class="table-input number d"
                     type="number"
                     min="1"
                     max="31"
                 >
+
             </td>
 
+
             <td>
+
                 <input
                     class="table-input name"
                     type="text"
                 >
+
             </td>
 
+
             <td>
+
                 <input
                     class="table-input number qty"
                     type="number"
                     min="0"
                     step="0.01"
                 >
+
             </td>
 
+
             <td>
+
                 <input
                     class="table-input number price"
                     type="text"
                     inputmode="numeric"
                 >
+
             </td>
 
+
             <td>
+
                 <input
                     class="table-input number supply"
                     type="text"
                     readonly
                 >
+
             </td>
 
+
             <td>
+
                 <input
                     class="table-input number tax"
                     type="text"
                     readonly
                 >
+
             </td>
 
-            <td>
-                <input
-                    class="table-input remark"
-                    type="text"
-                >
-            </td>
 
         `;
+
 
         bindRow(
             tr,
             i
         );
+
 
         tbody.appendChild(
             tr
@@ -895,8 +1114,9 @@ function initForm() {
 }
 
 
+
 /* =========================================================
-   행별 이벤트
+   행 이벤트
 ========================================================= */
 
 function bindRow(
@@ -904,25 +1124,29 @@ function bindRow(
     index
 ) {
 
-    const m =
+    const month =
         tr.querySelector('.m');
 
-    const d =
+
+    const day =
         tr.querySelector('.d');
+
 
     const name =
         tr.querySelector('.name');
 
+
     const qty =
         tr.querySelector('.qty');
+
 
     const price =
         tr.querySelector('.price');
 
 
-    /*
-      단가 숫자 콤마
-    */
+
+    /* 단가 콤마 */
+
     price.addEventListener(
         'blur',
         function() {
@@ -934,6 +1158,7 @@ function bindRow(
                         ''
                     );
 
+
             if (
                 raw !== '' &&
                 !isNaN(raw)
@@ -941,9 +1166,9 @@ function bindRow(
 
                 this.value =
                     Number(raw)
-                    .toLocaleString(
-                        'ko-KR'
-                    );
+                        .toLocaleString(
+                            'ko-KR'
+                        );
 
             }
 
@@ -951,13 +1176,14 @@ function bindRow(
     );
 
 
-    /*
-      입력 즉시 계산
-    */
+
+    /* 입력 즉시 계산 */
+
     qty.addEventListener(
         'input',
         () => calcRow(tr)
     );
+
 
     price.addEventListener(
         'input',
@@ -965,9 +1191,9 @@ function bindRow(
     );
 
 
-    /*
-      첫 행 자동 품목
-    */
+
+    /* 첫 번째 줄 자동 품목 */
+
     const autoName =
         () => {
 
@@ -975,8 +1201,8 @@ function bindRow(
                 index === 0 &&
                 !name.value &&
                 (
-                    m.value ||
-                    d.value ||
+                    month.value ||
+                    day.value ||
                     price.value
                 )
             ) {
@@ -989,15 +1215,17 @@ function bindRow(
         };
 
 
-    m.addEventListener(
+    month.addEventListener(
         'change',
         autoName
     );
 
-    d.addEventListener(
+
+    day.addEventListener(
         'change',
         autoName
     );
+
 
     price.addEventListener(
         'change',
@@ -1005,12 +1233,15 @@ function bindRow(
     );
 
 
+
     /*
-      2행 이후
-      일자 입력 시
-      첫 행의 월 / 품목 / 단가 복사
+    두 번째 행 이후
+
+    일 입력 →
+    첫 행 월 / 품목 / 단가 자동복사
     */
-    d.addEventListener(
+
+    day.addEventListener(
         'change',
         function() {
 
@@ -1024,15 +1255,18 @@ function bindRow(
                         '#itemTable tr'
                     );
 
+
                 const firstMonth =
                     firstRow
                         .querySelector('.m')
                         .value;
 
+
                 const firstName =
                     firstRow
                         .querySelector('.name')
                         .value;
+
 
                 const firstPrice =
                     firstRow
@@ -1040,15 +1274,17 @@ function bindRow(
                         .value;
 
 
+
                 if (
                     firstMonth &&
-                    !m.value
+                    !month.value
                 ) {
 
-                    m.value =
+                    month.value =
                         firstMonth;
 
                 }
+
 
 
                 if (
@@ -1060,6 +1296,7 @@ function bindRow(
                         firstName;
 
                 }
+
 
 
                 if (
@@ -1083,32 +1320,39 @@ function bindRow(
 }
 
 
+
 /* =========================================================
    행 계산
 ========================================================= */
 
 function calcRow(tr) {
 
+
     const qty =
         parseFloat(
-            tr.querySelector(
-                '.qty'
-            ).value
+            tr
+                .querySelector('.qty')
+                .value
         ) || 0;
+
 
 
     const price =
         parseFloat(
+
             (
-                tr.querySelector(
-                    '.price'
-                ).value || ''
+                tr
+                    .querySelector('.price')
+                    .value
+                || ''
             )
-            .replace(
-                /,/g,
-                ''
-            )
+                .replace(
+                    /,/g,
+                    ''
+                )
+
         ) || 0;
+
 
 
     const supply =
@@ -1117,30 +1361,32 @@ function calcRow(tr) {
         );
 
 
+
     const tax =
         Math.round(
             supply * 0.1
         );
 
 
-    tr.querySelector(
-        '.supply'
-    ).value =
+
+    tr
+        .querySelector('.supply')
+        .value =
+
         supply > 0
-        ? supply.toLocaleString(
-            'ko-KR'
-        )
-        : '';
+            ? supply.toLocaleString('ko-KR')
+            : '';
 
 
-    tr.querySelector(
-        '.tax'
-    ).value =
+
+    tr
+        .querySelector('.tax')
+        .value =
+
         tax > 0
-        ? tax.toLocaleString(
-            'ko-KR'
-        )
-        : '';
+            ? tax.toLocaleString('ko-KR')
+            : '';
+
 
 
     calcTotals();
@@ -1148,15 +1394,20 @@ function calcRow(tr) {
 }
 
 
+
 /* =========================================================
-   전체 합계
+   합계
 ========================================================= */
 
 function calcTotals() {
 
-    let totalQty = 0;
-    let totalSupply = 0;
-    let totalTax = 0;
+
+    let qty = 0;
+
+    let supply = 0;
+
+    let tax = 0;
+
 
 
     document
@@ -1166,137 +1417,154 @@ function calcTotals() {
         .forEach(
             tr => {
 
-                totalQty +=
+
+                qty +=
                     parseFloat(
-                        tr.querySelector(
-                            '.qty'
-                        ).value
+                        tr
+                            .querySelector('.qty')
+                            .value
                     ) || 0;
 
 
-                totalSupply +=
+
+                supply +=
                     parseFloat(
+
                         (
-                            tr.querySelector(
-                                '.supply'
-                            ).value || ''
+                            tr
+                                .querySelector('.supply')
+                                .value
+                            || ''
                         )
-                        .replace(
-                            /,/g,
-                            ''
-                        )
+                            .replace(
+                                /,/g,
+                                ''
+                            )
+
                     ) || 0;
 
 
-                totalTax +=
+
+                tax +=
                     parseFloat(
+
                         (
-                            tr.querySelector(
-                                '.tax'
-                            ).value || ''
+                            tr
+                                .querySelector('.tax')
+                                .value
+                            || ''
                         )
-                        .replace(
-                            /,/g,
-                            ''
-                        )
+                            .replace(
+                                /,/g,
+                                ''
+                            )
+
                     ) || 0;
 
             }
         );
 
 
+
     const total =
-        totalSupply +
-        totalTax;
+        supply + tax;
+
 
 
     const format =
         value =>
             Number(value)
-            .toLocaleString(
-                'ko-KR'
-            );
+                .toLocaleString(
+                    'ko-KR'
+                );
 
 
-    document.getElementById(
-        'sumQty'
-    ).value =
-        totalQty
-        ? format(totalQty)
-        : '';
+
+    document
+        .getElementById('sumQty')
+        .value =
+        qty
+            ? format(qty)
+            : '';
 
 
-    document.getElementById(
-        'sumSupply'
-    ).value =
-        totalSupply
-        ? format(totalSupply)
-        : '';
+
+    document
+        .getElementById('sumSupply')
+        .value =
+        supply
+            ? format(supply)
+            : '';
 
 
-    document.getElementById(
-        'sumTax'
-    ).value =
-        totalTax
-        ? format(totalTax)
-        : '';
+
+    document
+        .getElementById('sumTax')
+        .value =
+        tax
+            ? format(tax)
+            : '';
 
 
-    document.getElementById(
-        'totalAmount'
-    ).textContent =
+
+    document
+        .getElementById('totalAmount')
+        .textContent =
         total
-        ? format(total)
-        : '';
+            ? format(total)
+            : '';
 
 
-    document.getElementById(
-        'totalKorean'
-    ).textContent =
+
+    document
+        .getElementById('totalKorean')
+        .textContent =
         total
-        ? numToKorean(total)
-        : '';
+            ? numToKorean(total)
+            : '';
 
 
-    document.getElementById(
-        'finalTotal'
-    ).value =
+
+    document
+        .getElementById('finalTotal')
+        .value =
         total
-        ? format(total)
-        : '';
+            ? format(total)
+            : '';
 
 }
 
 
+
 /* =========================================================
-   초기화 버튼
+   초기화
 ========================================================= */
 
 function clearForm() {
 
-    const result =
-        confirm(
-            '정말 초기화하시겠습니까?'
-        );
 
-    if (!result) {
+    if (
+        !confirm(
+            '정말 초기화하시겠습니까?'
+        )
+    ) {
         return;
     }
 
 
-    document.getElementById(
-        'buyerName'
-    ).value = '';
+
+    document
+        .getElementById('buyerName')
+        .value =
+        '';
 
 
-    document.getElementById(
-        'notes'
-    ).value = '';
 
+    document
+        .getElementById('notes')
+        .value =
+        '';
 
-    document.getElementById(
-        'previousBalance'
-    ).value = '';
 
 
     document
@@ -1306,15 +1574,18 @@ function clearForm() {
         .forEach(
             input => {
 
-                input.value = '';
+                input.value =
+                    '';
 
             }
         );
 
 
+
     calcTotals();
 
 }
+
 
 
 /* =========================================================
@@ -1323,31 +1594,31 @@ function clearForm() {
 
 async function downloadImage() {
 
+
     const element =
         document.getElementById(
             'invoiceFrame'
         );
 
 
+
     const canvas =
         await html2canvas(
             element,
             {
+
                 scale: 3,
+
                 backgroundColor:
                     '#ffffff',
 
                 useCORS: true,
 
-                logging: false,
+                logging: false
 
-                windowWidth:
-                    element.scrollWidth,
-
-                windowHeight:
-                    element.scrollHeight
             }
         );
+
 
 
     const link =
@@ -1356,17 +1627,20 @@ async function downloadImage() {
         );
 
 
+
     link.href =
         canvas.toDataURL(
             'image/png',
-            1.0
+            1
         );
+
 
 
     link.download =
         '거래명세서_' +
-        new Date().getTime() +
+        Date.now() +
         '.png';
+
 
 
     link.click();
@@ -1374,11 +1648,13 @@ async function downloadImage() {
 }
 
 
+
 /* =========================================================
-   PDF 다운로드
+   PDF
 ========================================================= */
 
 function downloadPDF() {
+
 
     const element =
         document.getElementById(
@@ -1386,7 +1662,9 @@ function downloadPDF() {
         );
 
 
+
     const options = {
+
 
         margin: [
             10,
@@ -1395,32 +1673,40 @@ function downloadPDF() {
             10
         ],
 
+
         filename:
             '거래명세서_' +
-            new Date().getTime() +
+            Date.now() +
             '.pdf',
 
+
         image: {
-            type: 'jpeg',
-            quality: 1
+
+            type:
+                'jpeg',
+
+            quality:
+                1
+
         },
+
 
         html2canvas: {
 
-            scale: 3,
+            scale:
+                3,
 
             backgroundColor:
                 '#ffffff',
 
-            useCORS: true,
+            useCORS:
+                true,
 
-            logging: false,
-
-            scrollX: 0,
-
-            scrollY: 0
+            logging:
+                false
 
         },
+
 
         jsPDF: {
 
@@ -1435,6 +1721,7 @@ function downloadPDF() {
 
         },
 
+
         pagebreak: {
 
             mode: [
@@ -1448,6 +1735,7 @@ function downloadPDF() {
     };
 
 
+
     html2pdf()
         .set(options)
         .from(element)
@@ -1456,13 +1744,15 @@ function downloadPDF() {
 }
 
 
+
 /* =========================================================
-   로드
+   페이지 로드
 ========================================================= */
 
 window.addEventListener(
     'load',
     () => {
+
 
         if (
             sessionStorage.getItem(
@@ -1470,14 +1760,14 @@ window.addEventListener(
             ) === 'true'
         ) {
 
+
             document
                 .getElementById(
                     'authContainer'
                 )
                 .classList
-                .add(
-                    'hidden'
-                );
+                .add('hidden');
+
 
 
             document
@@ -1485,9 +1775,8 @@ window.addEventListener(
                     'appWrapper'
                 )
                 .classList
-                .add(
-                    'active'
-                );
+                .add('active');
+
 
 
             initForm();
@@ -1497,7 +1786,9 @@ window.addEventListener(
     }
 );
 
+
 </script>
+
 
 </body>
 </html>
