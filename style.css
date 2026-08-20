@@ -8,6 +8,7 @@
     box-sizing: border-box;
 }
 
+
 html,
 body {
     font-family:
@@ -16,6 +17,7 @@ body {
         Arial,
         sans-serif;
 }
+
 
 body {
     min-height: 100vh;
@@ -28,6 +30,7 @@ body {
 }
 
 
+
 /* =========================================================
    인증
 ========================================================= */
@@ -38,14 +41,16 @@ body {
     inset: 0;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     background:
         linear-gradient(
             135deg,
-            #667eea 0%,
-            #764ba2 100%
+            #667eea,
+            #764ba2
         );
 
     z-index: 9999;
@@ -65,7 +70,7 @@ body {
 
     padding: 40px;
 
-    background: #fff;
+    background: white;
 
     border-radius: 15px;
 
@@ -136,7 +141,7 @@ body {
             #764ba2
         );
 
-    color: #fff;
+    color: white;
 
     font-size: 16px;
 
@@ -153,6 +158,7 @@ body {
 
     font-size: 14px;
 }
+
 
 
 /* =========================================================
@@ -198,16 +204,18 @@ body {
         #e74c3c;
 
     color:
-        #fff;
+        white;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
     cursor: pointer;
 }
 
 
+
 /* =========================================================
-   A4 종이
+   A4
 ========================================================= */
 
 .paper {
@@ -217,7 +225,7 @@ body {
 
     padding: 10mm;
 
-    background: #fff;
+    background: white;
 
     box-shadow:
         0 5px 30px
@@ -234,8 +242,12 @@ body {
         1.4px solid
         #000;
 
-    background: #fff;
+    background:
+        white;
+
+    overflow: visible;
 }
+
 
 
 /* =========================================================
@@ -247,15 +259,15 @@ body {
 
     display: flex;
 
-    align-items: center;
-
     justify-content: center;
+
+    align-items: center;
 
     border-bottom:
         1.4px solid
         #000;
 
-    font-size: 25px;
+    font-size: 26px;
 
     font-weight: 900;
 
@@ -264,8 +276,9 @@ body {
 }
 
 
+
 /* =========================================================
-   공통 표
+   테이블 공통
 ========================================================= */
 
 table {
@@ -297,8 +310,10 @@ textarea {
     font-family:
         inherit;
 
-    color: #000;
+    color:
+        #000;
 }
+
 
 
 /* =========================================================
@@ -331,24 +346,22 @@ textarea {
 
 .top-cell {
     padding: 0;
+
+    overflow: visible;
 }
+
 
 
 /* =========================================================
    공급받는자
 ========================================================= */
 
-.buyer-table {
-    width: 100%;
-}
-
-
 .buyer-table td {
     padding:
         2px 4px;
 
     font-size:
-        9.5px;
+        10px;
 }
 
 
@@ -372,7 +385,7 @@ textarea {
         center;
 
     font-size:
-        9px;
+        10px;
 
     font-weight:
         bold;
@@ -388,15 +401,17 @@ textarea {
     align-items:
         center;
 
-    gap: 2px;
+    gap:
+        2px;
 
     font-size:
-        9px;
+        10px;
 }
 
 
 .date-input {
-    width: 30px;
+    width:
+        30px;
 
     border: 0;
 
@@ -409,7 +424,7 @@ textarea {
         center;
 
     font-size:
-        9px;
+        10px;
 }
 
 
@@ -452,16 +467,7 @@ textarea {
         center;
 
     font-size:
-        10.5px;
-
-    font-weight:
-        400;
-}
-
-
-#buyerName::placeholder {
-    color:
-        #888;
+        11px;
 }
 
 
@@ -470,10 +476,10 @@ textarea {
         5px;
 
     padding-right:
-        2px;
+        3px;
 
     font-size:
-        9.5px;
+        10px;
 
     font-weight:
         bold;
@@ -483,19 +489,14 @@ textarea {
 }
 
 
+
 /* =========================================================
-   공급자 세로칸
+   공급자 세로
 ========================================================= */
 
 .supplier-vertical {
     padding:
         2px;
-
-    writing-mode:
-        vertical-rl;
-
-    text-orientation:
-        upright;
 
     text-align:
         center;
@@ -506,12 +507,10 @@ textarea {
     font-weight:
         bold;
 
-    letter-spacing:
-        3px;
-
-    white-space:
-        nowrap;
+    line-height:
+        1.45;
 }
+
 
 
 /* =========================================================
@@ -520,6 +519,8 @@ textarea {
 
 .supplier-table {
     width: 100%;
+
+    overflow: visible;
 }
 
 
@@ -531,7 +532,13 @@ textarea {
         2px 5px;
 
     font-size:
-        9px;
+        10px;
+
+    text-align:
+        center;
+
+    overflow:
+        visible;
 }
 
 
@@ -539,32 +546,58 @@ textarea {
     text-align:
         center;
 
+    font-size:
+        10px;
+
     font-weight:
         bold;
 }
 
 
 .supplier-value {
+    text-align:
+        center;
+
     font-size:
-        9.5px;
+        10px;
 
     font-weight:
         500;
 }
 
 
+/* 성명 + 도장 */
+
 .supplier-name-cell {
     position:
         relative;
 
+    overflow:
+        visible !important;
+
     padding-right:
-        29px !important;
+        35px !important;
+
+    text-align:
+        center;
 
     font-size:
-        9.5px;
+        10px;
 
     font-weight:
         500;
+}
+
+
+.supplier-name-cell span {
+    display:
+        inline-block;
+
+    position:
+        relative;
+
+    z-index:
+        1;
 }
 
 
@@ -572,16 +605,20 @@ textarea {
     position:
         absolute;
 
-    top: 50%;
+    top:
+        50%;
 
     right:
-        1.5px;
+        2px;
 
     width:
-        29px;
+        32px;
 
     height:
-        29px;
+        32px;
+
+    max-width:
+        none;
 
     transform:
         translateY(-50%);
@@ -589,10 +626,18 @@ textarea {
     object-fit:
         contain;
 
+    object-position:
+        center;
+
     pointer-events:
         none;
+
+    z-index:
+        2;
 }
 
+
+/* 사업장 소재지 */
 
 .address-label {
     line-height:
@@ -601,24 +646,27 @@ textarea {
 
 
 .address-cell {
+    padding:
+        2px 5px !important;
+
+    text-align:
+        center !important;
+
     font-size:
-        7.7px !important;
+        9px !important;
 
     line-height:
         1.35;
+
+    font-weight:
+        500;
 }
+
 
 
 /* =========================================================
-   상단 합계금액
+   합계금액
 ========================================================= */
-
-.total-header-table {
-    border-left: 0;
-
-    border-right: 0;
-}
-
 
 .total-header-table td {
     height:
@@ -632,7 +680,7 @@ textarea {
     border-right: 0;
 
     font-size:
-        9px;
+        10px;
 }
 
 
@@ -641,7 +689,7 @@ textarea {
         center;
 
     font-size:
-        10.5px !important;
+        11px !important;
 
     font-weight:
         900;
@@ -653,16 +701,16 @@ textarea {
         center;
 
     font-size:
-        9px !important;
-
-    font-weight:
-        500;
+        10px !important;
 }
 
 
 .won-text {
     text-align:
         center;
+
+    font-size:
+        10px;
 
     font-weight:
         bold;
@@ -672,6 +720,9 @@ textarea {
 .currency-open {
     text-align:
         center;
+
+    font-size:
+        10px;
 }
 
 
@@ -680,7 +731,7 @@ textarea {
         center;
 
     font-size:
-        10.5px !important;
+        11px !important;
 
     font-weight:
         bold;
@@ -690,15 +741,20 @@ textarea {
 .currency-close {
     text-align:
         center;
+
+    font-size:
+        10px;
 }
 
 
+
 /* =========================================================
-   거래내역
+   거래 내역
 ========================================================= */
 
 .items-table {
-    width: 100%;
+    width:
+        100%;
 
     margin-top:
         -1px;
@@ -718,22 +774,19 @@ textarea {
         #000;
 
     font-size:
-        8.8px;
+        9.5px;
 }
 
 
 .items-table th {
-    height:
-        7mm;
-
     background:
-        #fff;
+        white;
 
     text-align:
         center;
 
     font-size:
-        9px;
+        10px;
 
     font-weight:
         bold;
@@ -741,18 +794,23 @@ textarea {
 
 
 .table-input {
-    display: block;
+    display:
+        block;
 
-    width: 100%;
+    width:
+        100%;
 
-    height: 100%;
+    height:
+        100%;
 
     padding:
         0 2px;
 
-    border: 0;
+    border:
+        0;
 
-    outline: 0;
+    outline:
+        0;
 
     background:
         transparent;
@@ -761,30 +819,52 @@ textarea {
         inherit;
 
     font-size:
-        8.8px;
+        9.5px;
 }
 
 
-.table-input:focus {
-    background:
-        #fffbe7;
-}
+/* 월, 일 */
 
-
-.table-input.number {
-    text-align:
-        right;
-}
-
-
-.items-table tbody td:first-child .table-input,
+.items-table tbody td:nth-child(1) .table-input,
 .items-table tbody td:nth-child(2) .table-input {
     text-align:
         center;
 }
 
 
+/* 품목 */
+
 .items-table tbody td:nth-child(3) .table-input {
+    text-align:
+        center;
+}
+
+
+/* 수량 */
+
+.items-table tbody td:nth-child(4) .table-input {
+    text-align:
+        center;
+}
+
+
+/*
+단가 / 공급가액 / 세액
+
+요청대로 모두 가운데 정렬
+*/
+
+.items-table tbody td:nth-child(5) .table-input,
+.items-table tbody td:nth-child(6) .table-input,
+.items-table tbody td:nth-child(7) .table-input {
+    text-align:
+        center;
+}
+
+
+/* 계 행 숫자 */
+
+.items-table tfoot .table-input {
     text-align:
         center;
 }
@@ -793,6 +873,9 @@ textarea {
 .sum-label {
     text-align:
         center;
+
+    font-size:
+        10px;
 
     font-weight:
         bold;
@@ -805,12 +888,14 @@ textarea {
 }
 
 
+
 /* =========================================================
    하단
 ========================================================= */
 
 .bottom-table {
-    width: 100%;
+    width:
+        100%;
 
     margin-top:
         -1px;
@@ -825,46 +910,24 @@ textarea {
         2px 5px;
 
     font-size:
-        9px;
+        10px;
+}
+
+
+/*
+전잔금 텍스트 삭제 후
+왼쪽 전체 공란
+*/
+
+.bottom-blank {
+    background:
+        white;
 }
 
 
 .bottom-label {
     text-align:
         center;
-
-    font-weight:
-        bold;
-}
-
-
-.bottom-input {
-    width: 100%;
-
-    border: 0;
-
-    outline: 0;
-
-    background:
-        transparent;
-
-    font-size:
-        9px;
-}
-
-
-.final-total {
-    width: 100%;
-
-    border: 0;
-
-    outline: 0;
-
-    background:
-        transparent;
-
-    text-align:
-        right;
 
     font-size:
         10px;
@@ -874,6 +937,39 @@ textarea {
 }
 
 
+/*
+합계 금액 가운데 정렬
+*/
+
+.final-total {
+    width:
+        100%;
+
+    border:
+        0;
+
+    outline:
+        0;
+
+    background:
+        transparent;
+
+    text-align:
+        center;
+
+    font-size:
+        11px;
+
+    font-weight:
+        bold;
+}
+
+
+
+/* =========================================================
+   비고
+========================================================= */
+
 .notes-row td {
     height:
         12mm;
@@ -881,9 +977,11 @@ textarea {
 
 
 .notes-input {
-    display: block;
+    display:
+        block;
 
-    width: 100%;
+    width:
+        100%;
 
     height:
         10mm;
@@ -892,13 +990,16 @@ textarea {
         10mm;
 
     padding:
-        1px 2px;
+        1px 3px;
 
-    border: 0;
+    border:
+        0;
 
-    outline: 0;
+    outline:
+        0;
 
-    resize: none;
+    resize:
+        none;
 
     overflow:
         hidden;
@@ -907,21 +1008,16 @@ textarea {
         transparent;
 
     font-size:
-        8.5px;
+        9px;
 
     line-height:
         1.3;
 }
 
 
-.notes-input::placeholder {
-    color:
-        #777;
-}
-
 
 /* =========================================================
-   입력창 focus
+   입력 상태
 ========================================================= */
 
 input:focus,
@@ -930,8 +1026,6 @@ textarea:focus {
         #fffbe7;
 }
 
-
-/* number 화살표 최소화 */
 
 input[type="number"] {
     appearance:
@@ -944,11 +1038,13 @@ input[type="number"] {
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-    margin: 0;
+    margin:
+        0;
 
     -webkit-appearance:
         none;
 }
+
 
 
 /* =========================================================
@@ -956,12 +1052,14 @@ input[type="number"]::-webkit-outer-spin-button {
 ========================================================= */
 
 .buttons {
-    display: flex;
+    display:
+        flex;
 
     justify-content:
         center;
 
-    gap: 10px;
+    gap:
+        10px;
 
     flex-wrap:
         wrap;
@@ -978,7 +1076,8 @@ input[type="number"]::-webkit-outer-spin-button {
     padding:
         11px 22px;
 
-    border: 0;
+    border:
+        0;
 
     border-radius:
         6px;
@@ -999,7 +1098,7 @@ input[type="number"]::-webkit-outer-spin-button {
         #667eea;
 
     color:
-        #fff;
+        white;
 }
 
 
@@ -1014,7 +1113,7 @@ input[type="number"]::-webkit-outer-spin-button {
         #95a5a6;
 
     color:
-        #fff;
+        white;
 }
 
 
@@ -1022,6 +1121,7 @@ input[type="number"]::-webkit-outer-spin-button {
     background:
         #7f8c8d;
 }
+
 
 
 /* =========================================================
@@ -1047,12 +1147,14 @@ input[type="number"]::-webkit-outer-spin-button {
         min-height:
             297mm;
 
-        margin: 0;
+        margin:
+            0;
 
-        padding: 0;
+        padding:
+            0;
 
         background:
-            #fff;
+            white;
     }
 
 
@@ -1071,7 +1173,8 @@ input[type="number"]::-webkit-outer-spin-button {
         width:
             100%;
 
-        margin: 0;
+        margin:
+            0;
     }
 
 
@@ -1079,12 +1182,11 @@ input[type="number"]::-webkit-outer-spin-button {
         width:
             190mm;
 
-        margin: 0;
+        margin:
+            0;
 
-        padding: 0;
-
-        background:
-            #fff;
+        padding:
+            0;
 
         box-shadow:
             none;
@@ -1095,7 +1197,8 @@ input[type="number"]::-webkit-outer-spin-button {
         width:
             190mm;
 
-        margin: 0;
+        margin:
+            0;
 
         page-break-inside:
             avoid;
@@ -1116,6 +1219,7 @@ input[type="number"]::-webkit-outer-spin-button {
     }
 
 }
+
 
 
 /* =========================================================
