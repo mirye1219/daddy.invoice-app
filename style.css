@@ -1,0 +1,604 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", Arial, sans-serif;
+}
+
+body {
+    background: #eef0f3;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* =========================================================
+   인증
+========================================================= */
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    inset: 0;
+
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 1000;
+}
+
+.auth-container.hidden {
+    display: none;
+}
+
+.auth-box {
+    width: min(400px, calc(100% - 40px));
+
+    padding: 40px;
+
+    background: #fff;
+
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+
+    text-align: center;
+}
+
+.auth-box h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.auth-box p {
+    margin-bottom: 30px;
+    color: #666;
+    font-size: 14px;
+}
+
+.auth-box input {
+    width: 100%;
+
+    padding: 12px 15px;
+    margin-bottom: 20px;
+
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+.auth-box input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.auth-box button {
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.auth-error {
+    margin-bottom: 15px;
+    color: #e74c3c;
+    font-size: 14px;
+}
+
+/* =========================================================
+   앱 영역
+========================================================= */
+
+.app-wrapper {
+    display: none;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.app-wrapper.active {
+    display: block;
+}
+
+.header {
+    width: 190mm;
+    max-width: 100%;
+    margin: 0 auto 10px;
+
+    text-align: right;
+}
+
+.logout-btn {
+    padding: 7px 14px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #e74c3c;
+    color: #fff;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   A4 문서
+========================================================= */
+
+.container {
+    /*
+       여기서 중요한 점.
+       기존에는 950px 폭에 padding 25px이 들어가면서
+       문서 비율이 화면 크기에 따라 달라졌음.
+    */
+
+    width: 210mm;
+    max-width: 100%;
+
+    margin: 0 auto;
+    padding: 10mm;
+
+    background: #fff;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, .13);
+}
+
+/*
+   실제 거래명세서 본체
+   A4에서 좌우 10mm 여백을 제외하면 약 190mm
+*/
+.invoice-frame {
+    width: 190mm;
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    border: 1.5px solid #000;
+
+    background: #fff;
+    color: #000;
+}
+
+/* =========================================================
+   공통 테이블
+========================================================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.inv td {
+    border: 0.7px solid #000;
+
+    padding: 3px 5px;
+
+    font-size: 10px;
+    line-height: 1.25;
+    vertical-align: middle;
+}
+
+.cell-label {
+    text-align: center;
+    font-weight: 700;
+}
+
+.fixed-val {
+    font-weight: 400;
+}
+
+/* =========================================================
+   제목
+========================================================= */
+
+.invoice-title {
+    height: 18mm;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-bottom: 1.5px solid #000;
+
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 8px;
+}
+
+/* =========================================================
+   상단 공급받는자 / 공급자
+========================================================= */
+
+.top-table > tbody > tr > td {
+    border-top: none;
+}
+
+.vert-label {
+    width: 7%;
+
+    padding: 2px !important;
+
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+
+    text-align: center;
+
+    font-size: 10px !important;
+    font-weight: 700;
+    letter-spacing: 3px;
+
+    white-space: nowrap;
+}
+
+.supplier-table td {
+    height: 8mm;
+}
+
+.supplier-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 입력 필드 */
+
+.inp {
+    width: 100%;
+
+    padding: 1px 2px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #000;
+
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.inp:focus {
+    background: #fffbe7;
+}
+
+.date-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 2px;
+
+    font-size: 9px;
+}
+
+.date-box .inp {
+    width: 32px;
+
+    text-align: center;
+
+    font-size: 9px;
+    font-weight: 400;
+}
+
+.date-box .yy {
+    width: 43px;
+}
+
+.date-box .mm,
+.date-box .dd {
+    width: 24px;
+}
+
+.buyer-row {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+#buyerName {
+    flex: 1;
+
+    text-align: center;
+
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.gwi-ha {
+    padding-right: 4px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.calc-note {
+    text-align: center;
+
+    font-size: 9px !important;
+    font-weight: 700;
+}
+
+/* =========================================================
+   도장
+========================================================= */
+
+.supplier-cell {
+    position: relative;
+}
+
+.seal-img {
+    position: absolute;
+
+    right: 1px;
+    top: 50%;
+
+    width: 34px;
+    height: 34px;
+
+    transform: translateY(-50%);
+
+    object-fit: contain;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   합계금액
+========================================================= */
+
+.sum-row td {
+    height: 9mm;
+
+    padding: 2px 4px !important;
+
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.sum-title {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+#totalKorean,
+#totalAmount {
+    font-size: 10px;
+}
+
+/* =========================================================
+   거래 품목
+========================================================= */
+
+.items {
+    margin-top: -1px;
+}
+
+.items th,
+.items td {
+    height: 7.2mm;
+
+    border: .7px solid #000;
+
+    padding: 1px 3px;
+
+    font-size: 9px;
+}
+
+.items th {
+    background: #fff;
+
+    text-align: center;
+
+    font-weight: 700;
+}
+
+.items input {
+    width: 100%;
+
+    padding: 0 2px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 9px;
+}
+
+.items input:focus {
+    background: #fffbe7;
+}
+
+.items input.num {
+    text-align: right;
+}
+
+.items tfoot td {
+    height: 8mm;
+}
+
+/* =========================================================
+   하단
+========================================================= */
+
+.bottom-table {
+    margin-top: -1px;
+}
+
+.bottom-table td {
+    height: 9mm;
+}
+
+.readonly-box {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    text-align: right;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+textarea.inp-ta {
+    width: 100%;
+    height: 12mm;
+    min-height: 12mm;
+
+    padding: 1px 3px;
+
+    border: none;
+    outline: none;
+
+    resize: none;
+
+    overflow: hidden;
+
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 9px;
+}
+
+/* =========================================================
+   버튼
+========================================================= */
+
+.buttons {
+    display: flex;
+    justify-content: center;
+
+    gap: 10px;
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 11px 22px;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: #fff;
+}
+
+/* =========================================================
+   인쇄
+========================================================= */
+
+@page {
+    size: A4 portrait;
+    margin: 10mm;
+}
+
+@media print {
+
+    html,
+    body {
+        width: 210mm;
+        min-height: 297mm;
+
+        margin: 0;
+        padding: 0;
+
+        background: #fff;
+    }
+
+    .auth-container,
+    .header,
+    .buttons {
+        display: none !important;
+    }
+
+    .app-wrapper {
+        display: block !important;
+        width: auto;
+        margin: 0;
+    }
+
+    .container {
+        width: 190mm;
+
+        margin: 0;
+        padding: 0;
+
+        box-shadow: none;
+    }
+
+    .invoice-frame {
+        width: 190mm;
+
+        margin: 0;
+
+        page-break-inside: avoid;
+    }
+
+    input,
+    textarea {
+        background: transparent !important;
+    }
+}
+
+/* =========================================================
+   작은 화면
+========================================================= */
+
+@media screen and (max-width: 800px) {
+
+    body {
+        padding: 8px;
+        overflow-x: auto;
+    }
+
+    /*
+      모바일에서 거래명세서를 재배치하지 않고
+      원래 문서 비율을 유지하도록 함.
+    */
+    .container {
+        width: 210mm;
+        max-width: none;
+
+        transform-origin: top left;
+    }
+
+    .app-wrapper {
+        min-width: 210mm;
+    }
+}
