@@ -83,17 +83,21 @@
         .cell-label { font-weight: bold; text-align: center; }
         .fixed-val { font-weight: bold; }
 
-        /* 공급받는자 - 귀하 */
-        .gwi-ha { text-align: right; vertical-align: bottom; font-weight: bold; font-size: 15px; }
+        /* 공급받는자 - 회사명 입력 + 귀하 한 줄 */
+        .buyer-row {
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; height: 100%; width: 100%;
+        }
+        .buyer-row #buyerName { flex: 1; }
+        .gwi-ha { font-weight: bold; font-size: 16px; white-space: nowrap; }
 
         /* 공급받는자 - 아래와 같이 계산합니다 */
         .calc-note { text-align: center; font-weight: bold; font-size: 14px; }
 
-        /* 입력 필드 */
+        /* 입력 필드 (밑줄 없음) */
         .inp {
             width: 100%;
             border: none;
-            border-bottom: 1.5px solid #999;
             background: transparent;
             font-size: 14px;
             padding: 4px 2px;
@@ -113,6 +117,7 @@
             font-size: 17px;
             font-weight: bold;
             letter-spacing: 1px;
+            border: none;
         }
 
         /* 공급자 - 도장 */
@@ -196,13 +201,12 @@
             <!-- ===== 상단: 공급받는자(좌) + 공급자(우) ===== -->
             <table class="inv">
                 <tr>
-                    <!-- 좌측: 공급받는자 (4칸 구조) -->
+                    <!-- 좌측: 공급받는자 -->
                     <td colspan="5" style="padding: 0; vertical-align: top; width: 50%;">
                         <table style="width: 100%;">
-                            <!-- 1칸: 일자 -->
+                            <!-- 1칸: 일자 (라벨 없이 날짜만) -->
                             <tr>
-                                <td class="cell-label" style="width: 22%;">일 자</td>
-                                <td style="width: 78%;">
+                                <td style="height: 52px;">
                                     <div class="date-box">
                                         <input class="inp yy" id="year" type="number" min="2000" max="2100"> 년
                                         <input class="inp mm" id="month" type="number" min="1" max="12"> 월
@@ -210,19 +214,18 @@
                                     </div>
                                 </td>
                             </tr>
-                            <!-- 2~3칸: 회사명 입력 + 귀하 -->
+                            <!-- 2칸: 회사명 입력 + 귀하 -->
                             <tr>
-                                <td class="cell-label" style="height: 62px;">공급받는자</td>
-                                <td rowspan="2" style="height: 62px;">
-                                    <input class="inp" id="buyerName" placeholder="회사명(업체명) 입력">
+                                <td style="height: 62px;">
+                                    <div class="buyer-row">
+                                        <input class="inp" id="buyerName" placeholder="회사명(업체명) 입력">
+                                        <span class="gwi-ha">귀하</span>
+                                    </div>
                                 </td>
                             </tr>
+                            <!-- 3칸: 아래와 같이 계산합니다 -->
                             <tr>
-                                <td class="gwi-ha" style="height: 34px;">귀 하</td>
-                            </tr>
-                            <!-- 4칸: 아래와 같이 계산합니다 -->
-                            <tr>
-                                <td colspan="2" class="calc-note">아래와 같이 계산합니다.</td>
+                                <td class="calc-note">아래와 같이 계산합니다.</td>
                             </tr>
                         </table>
                     </td>
